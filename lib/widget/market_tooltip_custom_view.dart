@@ -192,6 +192,7 @@ class KVItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.read(themeProvider);
     return Container(
+      width: 100.r,
       padding: EdgeInsetsDirectional.symmetric(horizontal: 4.r, vertical: 2.r),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
