@@ -132,7 +132,7 @@ class MarketTooltipCustomView extends ConsumerWidget {
           ),
           SizedBox(width: 6.r),
           Expanded(
-            child: Wrap(
+            child:SingleChildScrollView(child:  Wrap(
               alignment: WrapAlignment.start,
               spacing: 6.r,
               runSpacing: 4.r,
@@ -170,7 +170,7 @@ class MarketTooltipCustomView extends ConsumerWidget {
                   ),
                 ),
               ],
-            ),
+            ),scrollDirection: Axis.horizontal,),
           ),
         ],
       ),
