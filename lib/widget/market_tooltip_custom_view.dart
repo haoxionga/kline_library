@@ -205,7 +205,7 @@ class KVItem extends ConsumerWidget {
           Text(
             value,
             style: theme.t1s12w400
-                .copyWith(fontSize: value.length > 12 ? 10.sp : 12.sp),
+                .copyWith(fontSize: value.length > 12 ? 9.sp : 12.sp),
           )
         ],
       ),
