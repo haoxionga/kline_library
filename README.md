@@ -33,10 +33,10 @@
               url: https://github.com/haoxionga/kline_library.git
         
     2增加klinebrary 需要引用的库，kline_library库中只使用dev_dependencies依赖，真实版本需要自己引用
-        shared_preferences  
-        flutter_screenutil
-        flutter_riverpod
-        flutter_smart_dialog
+            shared_preferences: ^2.2.3 #用于缓存用户点击的设置
+            flutter_screenutil: ^5.9.3
+            flutter_riverpod: ^2.5.1
+            flutter_smart_dialog: ^4.9.8+3
 
 ```dart
             UpdateController updateController = UpdateController();
