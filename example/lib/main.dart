@@ -82,21 +82,15 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     Timer.periodic(Duration(seconds: 1), (_) async {
-      // List<CandleModel> da = await genCustomCandleList();
+      ///生成随机k线图数据
+      final newList = await genRandomCandleList(
+        count: 1,
+        bar: timebar,
+        isHistory: false,
+      );
 
-      // DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(lastTs);
-      //
-      // /// 随机生成[count] 个以 [dateTime]为基准的新数据
-      // final newList = await genRandomCandleList(
-      //   count: 1,
-      //   bar: timebar,
-      //   isHistory: false,
-      // );
-      //
-      // print('更新数据:${newList[0].toJson()}');
-      //
-      // ///更新数据
-      // updateController.updateData(newList);
+      ///更新k线图实时数据
+      updateController.updateData(newList);
     });
   }
 
@@ -116,6 +110,8 @@ appBar: AppBar(title: Text("k线图DEMO"),),
           child: Column(
             children: [
               KLineWidget(
+                ///是否允许全屏，允许的话，会显示一个按钮和双击图表变成全屏
+                isCanFullScreen: true,
                 supportTimBars: [
                   TimeBar.m1,
                   TimeBar.s1,

@@ -1,4 +1,4 @@
-基于flexi_kline再次封装的k线图组件
+基于flexi_kline再次封装的flutter 端 k线图组件，支持全平台，全屏模式仅支持手机端
 
     flexi_kline： https://pub-web.flutter-io.cn/packages/flexi_kline
 
@@ -10,10 +10,27 @@
 ![示例4](/demo/images/4.jpg "图片标题")
 
 
+为什么用他：
+
+    1 证券数据图表支持的很全面（无需自己再去了解每种指标如何计算构图）
+
+    2 容器嵌套在上下滑动的布局中没有太多的事件冲突（体验感较好）
+
+    3 纯flutter的库，无需使用webview加载网页的形式，还要处理webview和scrollview的滑动事件冲突
+
+为什么要再次封装？
+    
+    flexi_kline的demo功能较为全面，切换周期和指标，图标设置的功能想直接移植进来，但是对项目改动的就会比较多，所以才有了这个库，
+
+
 
 使用:
 
     1依赖kline_library库
+
+        kline_library:
+            git:
+              url: https://github.com/haoxionga/kline_library.git
         
     2增加klinebrary 需要引用的库，kline_library库中只使用dev_dependencies依赖，真实版本需要自己引用
         shared_preferences  
@@ -22,8 +39,13 @@
         flutter_smart_dialog
 
 ```dart
+            UpdateController updateController = UpdateController();
+            
+           ///k线图容器
             KLineWidget(
-                ///容器初始化的高度
+                ///是否允许全屏，允许的话，会显示一个按钮和双击图表变成全屏
+                isCanFullScreen: false,
+                ///容器初始化的尺寸
                 initSize:Size(300,400),
                 ///用于自选的k线周期
                 supportTimBars: [
@@ -99,3 +121,18 @@
                     h24Turnover: "24小时额"
                 ),
               )
+
+        ///更新实时k线图数据
+             demo中测试的更新流程
+             Timer.periodic(Duration(seconds: 1), (_) async {
+                  ///生成随机k线图数据
+                  final newList = await genRandomCandleList(
+                    count: 1,
+                    bar: timebar,
+                    isHistory: false,
+                  );
+                  
+                  ///更新k线图实时数据
+                  updateController.updateData(newList);
+                });
+              }

@@ -54,8 +54,12 @@ class KLineWidget extends StatelessWidget {
 
   ////显示的文本配置项
   StringLabelConfig labelConfig;
+
   ///容器初始化的大小
   Size? initSize;
+
+  ///是否允许全屏
+  bool isCanFullScreen;
 
   KLineWidget(
       {required this.supportTimBars,
@@ -65,6 +69,7 @@ class KLineWidget extends StatelessWidget {
       this.updateController,
       this.onTimeBarChange,
       this.initSize,
+      this.isCanFullScreen = false,
       this.showBottomIndicator = true,
       required this.marketTicker,
       required this.initReq});
@@ -74,7 +79,6 @@ class KLineWidget extends StatelessWidget {
     return ProviderScope(
         child: KlineWidgetPrivate(
       labelConfig: labelConfig,
-
       supportTimBars: supportTimBars,
       showBottomIndicator: showBottomIndicator,
       getCandleModelHistory: getCandleList,
@@ -82,6 +86,7 @@ class KLineWidget extends StatelessWidget {
       initSize: initSize,
       onTimeBarChange: onTimeBarChange,
       controller: updateController,
+      isCanFullScreen: isCanFullScreen,
       initReq: initReq,
       isShowMarketTooltipCustomView: isShowMarketTooltipCustomView ?? true,
     ));
@@ -97,11 +102,15 @@ class KlineWidgetPrivate extends ConsumerStatefulWidget {
       this.initSize,
       required this.labelConfig,
       this.onTimeBarChange,
+      required this.isCanFullScreen,
       required this.getCandleModelHistory,
       required this.showBottomIndicator,
       this.isShowMarketTooltipCustomView = false});
 
+  ///是否允许全屏
+  bool isCanFullScreen;
   Size? initSize;
+
   ////显示的文本配置项
   StringLabelConfig labelConfig;
   OnTimeBarChange? onTimeBarChange;
@@ -139,7 +148,8 @@ class _KlineWidgetState extends ConsumerState<KlineWidgetPrivate> {
   @override
   void initState() {
     req = widget.initReq;
-    configuration = DefaultFlexiKlineConfiguration(ref: ref,initSize: widget.initSize);
+    configuration =
+        DefaultFlexiKlineConfiguration(ref: ref, initSize: widget.initSize);
     controller = FlexiKlineController(
       configuration: configuration,
       logger: logger,
@@ -199,10 +209,10 @@ class _KlineWidgetState extends ConsumerState<KlineWidgetPrivate> {
           MarketTooltipCustomView(
             candleReq: req,
             data: controller.curKlineData.latest,
-            tooltipOpen: widget.labelConfig.tooltipOpen??"",
-            tooltipHigh:  widget.labelConfig.tooltipHigh??"",
-            tooltipLow:  widget.labelConfig.tooltipLow??"",
-            tooltipAmount:  widget.labelConfig.tooltipAmount??"",
+            tooltipOpen: widget.labelConfig.tooltipOpen ?? "",
+            tooltipHigh: widget.labelConfig.tooltipHigh ?? "",
+            tooltipLow: widget.labelConfig.tooltipLow ?? "",
+            tooltipAmount: widget.labelConfig.tooltipAmount ?? "",
           ),
 
         ///k线周期，设置等等
@@ -221,21 +231,22 @@ class _KlineWidgetState extends ConsumerState<KlineWidgetPrivate> {
           mainforegroundViewBuilder: (cx) {
             return Stack(
               children: [
-                Positioned(
-                  left: 8.r,
-                  bottom: 8.r,
-                  width: 28.r,
-                  height: 28.r,
-                  child: IconButton(
-                    // constraints: BoxConstraints.tight(Size(28.r, 28.r)),
-                    padding: EdgeInsets.zero,
-                    style: ref.watch(themeProvider).circleBtnStyle(
-                        bg: ref.watch(themeProvider).markBg.withOpacity(0.6)),
-                    iconSize: 20.r,
-                    icon: const Icon(Icons.fullscreen_rounded),
-                    onPressed: openLandscapePage,
+                if (widget.isCanFullScreen)
+                  Positioned(
+                    left: 8.r,
+                    bottom: 8.r,
+                    width: 28.r,
+                    height: 28.r,
+                    child: IconButton(
+                      // constraints: BoxConstraints.tight(Size(28.r, 28.r)),
+                      padding: EdgeInsets.zero,
+                      style: ref.watch(themeProvider).circleBtnStyle(
+                          bg: ref.watch(themeProvider).markBg.withOpacity(0.6)),
+                      iconSize: 20.r,
+                      icon: const Icon(Icons.fullscreen_rounded),
+                      onPressed: openLandscapePage,
+                    ),
                   ),
-                ),
               ],
             );
           },
@@ -293,6 +304,9 @@ class _KlineWidgetState extends ConsumerState<KlineWidgetPrivate> {
   }
 
   void openLandscapePage() async {
+    if (!widget.isCanFullScreen) {
+      return;
+    }
     controller.storeFlexiKlineConfig();
     // 跳转到横屏页面
     final isUpdate = await Navigator.push(
