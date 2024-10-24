@@ -20,7 +20,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../provider/market_candle_provider.dart';
 import '../theme/flexi_theme.dart';
 
-
 class MarketTooltipCustomView extends ConsumerWidget {
   const MarketTooltipCustomView({
     super.key,
@@ -31,6 +30,7 @@ class MarketTooltipCustomView extends ConsumerWidget {
     required this.tooltipLow,
     required this.tooltipAmount,
   });
+
   final String tooltipOpen;
   final String tooltipHigh;
   final String tooltipLow;
@@ -204,7 +204,8 @@ class KVItem extends ConsumerWidget {
           ),
           Text(
             value,
-            style: theme.t1s12w400,
+            style: theme.t1s12w400
+                .copyWith(fontSize: value.length > 12 ? 10.sp : 12.sp),
           )
         ],
       ),
