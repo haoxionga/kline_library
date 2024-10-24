@@ -132,7 +132,7 @@ class MarketTooltipCustomView extends ConsumerWidget {
           ),
           SizedBox(width: 6.r),
           Expanded(
-            child:SingleChildScrollView(child:  Wrap(
+            child: Wrap(
               alignment: WrapAlignment.start,
               spacing: 6.r,
               runSpacing: 4.r,
@@ -170,7 +170,7 @@ class MarketTooltipCustomView extends ConsumerWidget {
                   ),
                 ),
               ],
-            ),scrollDirection: Axis.horizontal,),
+            ),
           ),
         ],
       ),
@@ -192,7 +192,6 @@ class KVItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.read(themeProvider);
     return Container(
-      width: 110.r,
       padding: EdgeInsetsDirectional.symmetric(horizontal: 4.r, vertical: 2.r),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
