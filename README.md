@@ -123,7 +123,6 @@
               )
 
         ///更新实时k线图数据
-             demo中测试的更新流程
              Timer.periodic(Duration(seconds: 1), (_) async {
                   ///生成随机k线图数据
                   final newList = await genRandomCandleList(
