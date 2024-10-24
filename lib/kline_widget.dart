@@ -26,8 +26,7 @@ typedef GetCandleListCallBack = Future<List<CandleModel>> Function(
     CandleReq req);
 
 typedef OnTimeBarChange = Function(TimeBar newTimeBar);
-
-class KLineWidget extends StatelessWidget {
+class KLineWidget extends StatefulWidget {
   ///支持的时间周期
   List<TimeBar> supportTimBars;
 
@@ -63,33 +62,53 @@ class KLineWidget extends StatelessWidget {
 
   KLineWidget(
       {required this.supportTimBars,
-      required this.getCandleList,
-      required this.labelConfig,
-      this.isShowMarketTooltipCustomView,
-      this.updateController,
-      this.onTimeBarChange,
-      this.initSize,
-      this.isCanFullScreen = false,
-      this.showBottomIndicator = true,
-      required this.marketTicker,
-      required this.initReq});
+        required this.getCandleList,
+        required this.labelConfig,
+        this.isShowMarketTooltipCustomView,
+        this.updateController,
+        this.onTimeBarChange,
+        this.initSize,
+        this.isCanFullScreen = false,
+        this.showBottomIndicator = true,
+        required this.marketTicker,
+        required this.initReq});
+
+  @override
+  State<StatefulWidget> createState() {
+   return _KLineWidgetState();
+  }
+}
+class _KLineWidgetState extends State<KLineWidget> {
+
+  bool isInitCache=false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+     CacheUtil.instance.init().then((value){
+       setState(() {
+         isInitCache=true;
+       });
+     });
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(
+    return isInitCache?ProviderScope(
         child: KlineWidgetPrivate(
-      labelConfig: labelConfig,
-      supportTimBars: supportTimBars,
-      showBottomIndicator: showBottomIndicator,
-      getCandleModelHistory: getCandleList,
-      marketTicker: marketTicker,
-      initSize: initSize,
-      onTimeBarChange: onTimeBarChange,
-      controller: updateController,
-      isCanFullScreen: isCanFullScreen,
-      initReq: initReq,
-      isShowMarketTooltipCustomView: isShowMarketTooltipCustomView ?? true,
-    ));
+      labelConfig: widget.labelConfig,
+      supportTimBars: widget.supportTimBars,
+      showBottomIndicator: widget.showBottomIndicator,
+      getCandleModelHistory: widget.getCandleList,
+      marketTicker: widget.marketTicker,
+      initSize: widget.initSize,
+      onTimeBarChange: widget.onTimeBarChange,
+      controller:widget. updateController,
+      isCanFullScreen:widget. isCanFullScreen,
+      initReq: widget.initReq,
+      isShowMarketTooltipCustomView:widget. isShowMarketTooltipCustomView ?? true,
+    )):SizedBox();
   }
 }
 
@@ -299,7 +318,6 @@ class _KlineWidgetState extends ConsumerState<KlineWidgetPrivate> {
   }
 
   void _init() async {
-    await CacheUtil.instance.init();
     initKlineData().then((value) {});
   }
 
