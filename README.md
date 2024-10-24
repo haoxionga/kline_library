@@ -47,6 +47,8 @@
                 minTextAdapt: false,
                 splitScreenMode: true,
                 fontSizeResolver: FontSizeResolvers.radius,
+    4 配置flutter_smart_dialog
+             builder: FlutterSmartDialog.init(),
 
 ```dart
             UpdateController updateController = UpdateController();

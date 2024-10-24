@@ -20,6 +20,7 @@ import 'model/market_ticker.dart';
 import 'model/string_label_config.dart';
 import 'provider/market_candle_provider.dart';
 import 'widget/market_tooltip_custom_view.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 ////异步获取k线图记录
 typedef GetCandleListCallBack = Future<List<CandleModel>> Function(
@@ -85,7 +86,9 @@ class _KLineWidgetState extends State<KLineWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-     CacheUtil.instance.init().then((value){
+     FlutterSmartDialog.init();
+     CacheUtil.instance.init().then((value)async{
+
        setState(() {
          isInitCache=true;
        });
