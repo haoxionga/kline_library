@@ -38,6 +38,16 @@
             flutter_riverpod: ^2.5.1
             flutter_smart_dialog: ^4.9.8+3
 
+    3配置screenutil，增加         fontSizeResolver: FontSizeResolvers.radius,否则横屏字号显示不对 
+
+            
+
+            ScreenUtilInit(
+                designSize: const Size(393, 852),
+                minTextAdapt: false,
+                splitScreenMode: true,
+                fontSizeResolver: FontSizeResolvers.radius,
+
 ```dart
             UpdateController updateController = UpdateController();
             

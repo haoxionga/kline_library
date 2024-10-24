@@ -176,18 +176,20 @@ class _LandscapeKlinePageState extends ConsumerState<LandscapeKlinePage> {
           centerTitle: false,
           titleSpacing: 0,
           toolbarHeight: 30.r,
+          surfaceTintColor: Colors.white,
+          backgroundColor: Colors.white,
           actions: [
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: exitPage,
               child: Container(
                 margin: EdgeInsets.only(right: 10.r),
-                width: 50.r,
-                height: 40.r,
+                width: 30.r,
+                height: 30.r,
                 alignment: AlignmentDirectional.center,
                 child: Icon(
                   Icons.fullscreen_exit_rounded,
-                  size: 40.r,
+                  size: 30.r,
                 ),
               ),
             ),
