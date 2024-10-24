@@ -87,14 +87,21 @@ class _KLineWidgetState extends State<KLineWidget> {
     // TODO: implement initState
     super.initState();
      // FlutterSmartDialog.init();
-     CacheUtil.instance.init().then((value)async{
 
-       setState(() {
-         isInitCache=true;
-       });
-     });
+    _init();
+
 
   }
+  void _init() async{
+   try {
+     await CacheUtil.instance.init();
+   } catch (e) {
+   }
+    setState(() {
+      isInitCache=true;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +120,8 @@ class _KLineWidgetState extends State<KLineWidget> {
       isShowMarketTooltipCustomView:widget. isShowMarketTooltipCustomView ?? true,
     )):SizedBox();
   }
+
+
 }
 
 class KlineWidgetPrivate extends ConsumerStatefulWidget {
@@ -220,6 +229,7 @@ class _KlineWidgetState extends ConsumerState<KlineWidgetPrivate> {
           );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
