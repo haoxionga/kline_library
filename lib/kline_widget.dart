@@ -86,7 +86,7 @@ class _KLineWidgetState extends State<KLineWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-     FlutterSmartDialog.init();
+     // FlutterSmartDialog.init();
      CacheUtil.instance.init().then((value)async{
 
        setState(() {
