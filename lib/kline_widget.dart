@@ -27,6 +27,7 @@ typedef GetCandleListCallBack = Future<List<CandleModel>> Function(
     CandleReq req);
 
 typedef OnTimeBarChange = Function(TimeBar newTimeBar);
+
 class KLineWidget extends StatefulWidget {
   ///支持的时间周期
   List<TimeBar> supportTimBars;
@@ -63,65 +64,63 @@ class KLineWidget extends StatefulWidget {
 
   KLineWidget(
       {required this.supportTimBars,
-        required this.getCandleList,
-        required this.labelConfig,
-        this.isShowMarketTooltipCustomView,
-        this.updateController,
-        this.onTimeBarChange,
-        this.initSize,
-        this.isCanFullScreen = false,
-        this.showBottomIndicator = true,
-        required this.marketTicker,
-        required this.initReq});
+      required this.getCandleList,
+      required this.labelConfig,
+      this.isShowMarketTooltipCustomView,
+      this.updateController,
+      this.onTimeBarChange,
+      this.initSize,
+      this.isCanFullScreen = false,
+      this.showBottomIndicator = true,
+      required this.marketTicker,
+      required this.initReq});
 
   @override
   State<StatefulWidget> createState() {
-   return _KLineWidgetState();
+    return _KLineWidgetState();
   }
 }
-class _KLineWidgetState extends State<KLineWidget> {
 
-  bool isInitCache=false;
+class _KLineWidgetState extends State<KLineWidget> {
+  bool isInitCache = false;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-     // FlutterSmartDialog.init();
-
-    _init();
-
-
-  }
-  void _init() async{
-   try {
-     await CacheUtil.instance.init();
-   } catch (e) {
-   }
-    setState(() {
-      isInitCache=true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _init();
     });
   }
 
+  void _init() async {
+    try {
+      await CacheUtil.instance.init();
+    } catch (e) {}
+    setState(() {
+      isInitCache = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return isInitCache?ProviderScope(
-        child: KlineWidgetPrivate(
-      labelConfig: widget.labelConfig,
-      supportTimBars: widget.supportTimBars,
-      showBottomIndicator: widget.showBottomIndicator,
-      getCandleModelHistory: widget.getCandleList,
-      marketTicker: widget.marketTicker,
-      initSize: widget.initSize,
-      onTimeBarChange: widget.onTimeBarChange,
-      controller:widget. updateController,
-      isCanFullScreen:widget. isCanFullScreen,
-      initReq: widget.initReq,
-      isShowMarketTooltipCustomView:widget. isShowMarketTooltipCustomView ?? true,
-    )):SizedBox();
+    return isInitCache
+        ? ProviderScope(
+            child: KlineWidgetPrivate(
+            labelConfig: widget.labelConfig,
+            supportTimBars: widget.supportTimBars,
+            showBottomIndicator: widget.showBottomIndicator,
+            getCandleModelHistory: widget.getCandleList,
+            marketTicker: widget.marketTicker,
+            initSize: widget.initSize,
+            onTimeBarChange: widget.onTimeBarChange,
+            controller: widget.updateController,
+            isCanFullScreen: widget.isCanFullScreen,
+            initReq: widget.initReq,
+            isShowMarketTooltipCustomView:
+                widget.isShowMarketTooltipCustomView ?? true,
+          ))
+        : SizedBox();
   }
-
-
 }
 
 class KlineWidgetPrivate extends ConsumerStatefulWidget {
@@ -155,11 +154,11 @@ class KlineWidgetPrivate extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return _KlineWidgetState();
+    return _KlineWidgetPrivateState();
   }
 }
 
-class _KlineWidgetState extends ConsumerState<KlineWidgetPrivate> {
+class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
   late final FlexiKlineController controller;
   late final DefaultFlexiKlineConfiguration configuration;
 
@@ -229,7 +228,6 @@ class _KlineWidgetState extends ConsumerState<KlineWidgetPrivate> {
           );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
