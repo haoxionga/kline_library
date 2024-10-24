@@ -39,9 +39,14 @@ abstract class FKTheme {
 
   Color get brand => Colors.black;
 
-  Color get long => const Color(0xFF33BD65);
+  // Color get long => const Color(0xFF33BD65);
+  //
+  // Color get short => const Color(0xFFE84E74);
 
-  Color get short => const Color(0xFFE84E74);
+
+  Color get long => const Color(0xFFE84E74);
+
+  Color get short => const Color(0xFF33BD65);
 
   Color get white => Colors.white;
 
