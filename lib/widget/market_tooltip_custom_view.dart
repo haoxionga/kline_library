@@ -130,7 +130,7 @@ class MarketTooltipCustomView extends ConsumerWidget {
               ],
             ),
           ),
-          SizedBox(width: 12.r),
+          SizedBox(width: 6.r),
           Expanded(
             child: Wrap(
               alignment: WrapAlignment.start,
