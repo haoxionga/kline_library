@@ -4,10 +4,10 @@
 
 效果图:
 
-![示例1](https://github.com/haoxionga/kline_library/tree/main/demo/images/1.jpg "图片标题")
-![示例2](https://github.com/haoxionga/kline_library/tree/main/demo/images/2.jpg "图片标题")
-![示例3](https://github.com/haoxionga/kline_library/tree/main/demo/images/3.jpg "图片标题")
-![示例4](https://github.com/haoxionga/kline_library/tree/main/demo/images/4.jpg "图片标题")
+![示例1](/demo/images/1.jpg "图片标题")
+![示例2](/demo/images/2.jpg "图片标题")
+![示例3](/demo/images/3.jpg "图片标题")
+![示例4](/demo/images/4.jpg "图片标题")
 
 
 
