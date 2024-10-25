@@ -15,7 +15,7 @@ dependencies:
   web: ^0.5.1
   plugin_platform_interface: ^2.0.2
   flexi_kline:
-    path: ./plugin/FlexiKline
+    url: https://github.com/haoxionga/kline_library/plugin/FlexiKline
 
 dev_dependencies:
   flutter_test:
@@ -24,6 +24,8 @@ dev_dependencies:
   flutter_screenutil: ^5.9.3
   flutter_riverpod: ^2.5.1
   flutter_smart_dialog: ^4.9.8+3
+  flexi_kline:
+    path: /plugin/FlexiKline
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
