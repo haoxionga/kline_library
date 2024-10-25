@@ -15,7 +15,7 @@ dependencies:
   web: ^0.5.1
   plugin_platform_interface: ^2.0.2
   flexi_kline:
-    path: plugin/FlexiKline
+    path: ./plugin/FlexiKline
 
 dev_dependencies:
   flutter_test:
