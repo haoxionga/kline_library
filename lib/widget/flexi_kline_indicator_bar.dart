@@ -58,6 +58,7 @@ class _FlexiKliineIndicatorBarState
     final theme = ref.watch(themeProvider);
     final klineState = ref.watch(klineStateProvider(widget.controller));
     return Container(
+      width: double.maxFinite,
       height: widget.height,
       alignment: widget.alignment ?? AlignmentDirectional.centerStart,
       padding: widget.padding,

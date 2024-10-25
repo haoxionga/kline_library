@@ -65,12 +65,15 @@ class KLineWidget extends StatefulWidget {
   ///是否允许全屏
   bool isCanFullScreen;
 
+  final EdgeInsetsGeometry? bottomIndicatorMargin;
+
   KLineWidget(
       {required this.supportTimBars,
       required this.getCandleList,
       required this.labelConfig,
       this.isShowMarketTooltipCustomView,
       this.updateController,
+      this.bottomIndicatorMargin,
       this.onTimeBarChange,
       this.onInitCallBack,
       this.initSize,
@@ -116,6 +119,7 @@ class _KLineWidgetState extends State<KLineWidget> {
             showBottomIndicator: widget.showBottomIndicator,
             getCandleModelHistory: widget.getCandleList,
             marketTicker: widget.marketTicker,
+            bottomIndicatorMargin: widget.bottomIndicatorMargin,
             initSize: widget.initSize,
             onTimeBarChange: widget.onTimeBarChange,
             controller: widget.updateController,
@@ -138,11 +142,12 @@ class KlineWidgetPrivate extends ConsumerStatefulWidget {
       required this.labelConfig,
       this.onTimeBarChange,
       this.onInitCallBack,
+      this.bottomIndicatorMargin,
       required this.isCanFullScreen,
       required this.getCandleModelHistory,
       required this.showBottomIndicator,
       this.isShowMarketTooltipCustomView = false});
-
+  final EdgeInsetsGeometry? bottomIndicatorMargin;
   OnInitCallBack? onInitCallBack;
 
   ///是否允许全屏
@@ -297,6 +302,8 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
           ///底部主副图切换
           FlexiKlineIndicatorBar(
             controller: controller,
+            margin: widget.bottomIndicatorMargin,
+            // margin: EdgeInsets.symmetric(horizontal: 20.w),
           ),
         // InkWell(
         //   child: Container(
