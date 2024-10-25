@@ -100,10 +100,9 @@ packages:
   flexi_kline:
     dependency: transitive
     description:
-      name: flexi_kline
-      sha256: "83e2763bee1aa4f6154a1f6249b71d1b9f875c863dc821cb631c30135f7aec1a"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../plugin/FlexiKline"
+      relative: true
+    source: path
     version: "0.6.1"
   flutter:
     dependency: "direct main"
@@ -181,7 +180,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.1.3"
   leak_tracker:
     dependency: transitive
     description:

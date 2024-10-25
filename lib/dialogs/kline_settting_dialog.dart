@@ -27,6 +27,7 @@ import '../util/dialog_manager.dart';
 
 class KlineSettingDialog extends ConsumerStatefulWidget {
   static const String dialogTag = "KlineSettingDialog";
+
   const KlineSettingDialog({
     super.key,
     required this.controller,
@@ -44,31 +45,10 @@ class KlineSettingDialog extends ConsumerStatefulWidget {
 class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
   bool klineHeightChanging = false;
   bool klineWidthChanging = false;
+
   bool get klineSizeChanging => klineHeightChanging || klineWidthChanging;
 
-  Future<void> openLandscapePage() async {
-    // if (!DeviceUtil.isMobile) {
-    //   SmartDialog.showToast(
-    //     'Landscape operation is not allowed on non-mobile devices',
-    //   );
-    //   return;
-    // }
-    //
-    // SmartDialog.dismiss(tag: KlineSettingDialog.dialogTag);
-    // widget.controller.storeFlexiKlineConfig();
-    // final isUpdate = await ref.read(routerProvider).pushNamed(
-    //   'landscapeKline',
-    //   extra: {
-    //     "candleReq": widget.controller.curKlineData.req.toInitReq(),
-    //     "configuration": widget.controller.configuration,
-    //   },
-    // );
-    // if (mounted && isUpdate == true) {
-    //   widget.controller.logd('openLandscapePage return isUpdate> $isUpdate');
-    //   final landConfig = widget.controller.configuration.getFlexiKlineConfig();
-    //   widget.controller.updateFlexiKlineConfig(landConfig);
-    // }
-  }
+  Future<void> openLandscapePage() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +134,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            s.chartSettings??"",
+            s.chartSettings ?? "",
             style: theme.t1s18w700,
           ),
           // SizedBox(height: 20.r),
@@ -219,7 +199,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
   /// 设置图表区域显示设置
   Widget _buildDisplaySetting(BuildContext context) {
     final theme = ref.watch(themeProvider);
-    final s =widget.labelConfig;
+    final s = widget.labelConfig;
     final klineState = ref.watch(klineStateProvider(widget.controller));
     return Container(
       padding: EdgeInsetsDirectional.symmetric(
@@ -243,7 +223,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Text(
-                    s.lastPrice??"",
+                    s.lastPrice ?? "",
                     style: theme.t1s14w500,
                   ),
                   activeColor: theme.t1,
@@ -262,7 +242,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Text(
-                    s.countdown??"",
+                    s.countdown ?? "",
                     style: theme.t1s14w500,
                   ),
                   activeColor: theme.t1,
@@ -286,7 +266,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Text(
-                    s.highPrice??"",
+                    s.highPrice ?? "",
                     style: theme.t1s14w500,
                   ),
                   activeColor: theme.t1,
@@ -306,7 +286,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Text(
-                    s.lowPrice??"",
+                    s.lowPrice ?? "",
                     style: theme.t1s14w500,
                   ),
                   activeColor: theme.t1,
@@ -329,7 +309,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Text(
-                    s.yAxisPriceScale??"",
+                    s.yAxisPriceScale ?? "",
                     style: theme.t1s14w500,
                   ),
                   activeColor: theme.t1,
@@ -338,11 +318,68 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
                   // shape: theme.defaultShape,
                 ),
               ),
-              const Expanded(child: SizedBox.shrink())
             ],
-          )
+          ),
+          Row(
+            children: [Expanded(child: _build_candle_type())],
+          ),
+          SizedBox(
+            height: 6.r,
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _build_bar_setitem(int index, String title) {
+    final theme = ref.watch(themeProvider);
+    final s = widget.labelConfig;
+    final klineState = ref.watch(klineStateProvider(widget.controller));
+    return Expanded(
+      child: CheckboxListTile(
+        dense: true,
+        value: klineState.barType == index,
+        contentPadding: EdgeInsets.zero,
+        onChanged: (value) {
+          klineState.setCandleBarType(index);
+
+        },
+        controlAffinity: ListTileControlAffinity.leading,
+        title: Text(
+          title,
+          style: theme.t1s14w500,
+        ),
+        activeColor: theme.t1,
+        selected: true,
+        checkColor: theme.tlight,
+      ),
+    );
+  }
+
+  Widget _build_candle_type() {
+    final theme = ref.watch(themeProvider);
+    final s = widget.labelConfig;
+    List<String> titles = ["全实心", "全空心", "涨空心", "跌空心"];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "蜡烛图类型",
+          style: theme.t1s14w500,
+        ),
+        Row(
+          children: [
+            _build_bar_setitem(0, titles[0]),
+            _build_bar_setitem(1, titles[1]),
+          ],
+        ),
+        Row(
+          children: [
+            _build_bar_setitem(2, titles[2]),
+            _build_bar_setitem(3, titles[3]),
+          ],
+        ),
+      ],
     );
   }
 
@@ -353,7 +390,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          s.chartWidth??"",
+          s.chartWidth ?? "",
           style: theme.t1s14w400,
         ),
         FlexiKlineSizeSlider(
@@ -380,7 +417,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          s.chartHeight??"",
+          s.chartHeight ?? "",
           style: theme.t1s14w400,
         ),
         FlexiKlineSizeSlider(

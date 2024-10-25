@@ -33,9 +33,12 @@ class KlineStateNotifier extends ChangeNotifier {
 
   Set<ValueKey> get supportMainIndicatorKeys =>
       controller.supportMainIndicatorKeys;
+
   Set<ValueKey> get supportSubIndicatorKeys =>
       controller.supportSubIndicatorKeys;
+
   Set<ValueKey> get mainIndicatorKeys => controller.mainIndicatorKeys;
+
   Set<ValueKey> get subIndicatorKeys => controller.subIndicatorKeys;
 
   void onTapMainIndicator(ValueKey key) {
@@ -87,6 +90,17 @@ class KlineStateNotifier extends ChangeNotifier {
         showCountDown: isShow,
       ),
     );
+    notifyListeners();
+  }
+
+  /// 获取蜡烛图类型
+  int get barType {
+    return controller.settingConfig.barType;
+  }
+
+  void setCandleBarType(int newBarType) {
+    controller.settingConfig =
+        controller.settingConfig.copyWith(barType: newBarType);
     notifyListeners();
   }
 

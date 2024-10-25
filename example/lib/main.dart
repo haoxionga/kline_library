@@ -82,15 +82,15 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     Timer.periodic(Duration(seconds: 1), (_) async {
-      ///生成随机k线图数据
-      final newList = await genRandomCandleList(
-        count: 1,
-        bar: timebar,
-        isHistory: false,
-      );
-
-      ///更新k线图实时数据
-      updateController.updateData(newList);
+      // ///生成随机k线图数据
+      // final newList = await genRandomCandleList(
+      //   count: 1,
+      //   bar: timebar,
+      //   isHistory: false,
+      // );
+      //
+      // ///更新k线图实时数据
+      // updateController.updateData(newList);
     });
   }
 

@@ -35,6 +35,7 @@ class DefaultFlexiKlineTheme extends BaseFlexiKlineTheme
   DefaultFlexiKlineTheme({
     required this.theme,
   }) : super(
+    barType: theme.barType,
     long: theme.long,
     short: theme.short,
     chartBg: theme.pageBg,
@@ -56,6 +57,7 @@ class DefaultFlexiKlineTheme extends BaseFlexiKlineTheme
   DefaultFlexiKlineTheme.simple({
     required this.theme,
   }) : super.simple(
+    barType: theme.barType,
     long: theme.long,
     short: theme.short,
     chartBg: theme.pageBg,
@@ -95,6 +97,8 @@ class DefaultFlexiKlineTheme extends BaseFlexiKlineTheme
 
   @override
   double setSp(num fontSize) => ScreenUtil().setSp(fontSize);
+
+
 }
 
 final defaultKlineThemeProvider = StateProvider<DefaultFlexiKlineTheme>((ref) {
@@ -129,7 +133,8 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
       // defLogger.e('getFlexiKlineConfig error:$err', stackTrace: stack);
     }
 
-    return genFlexiKlineConfig(theme!);
+    FlexiKlineConfig config= genFlexiKlineConfig(theme!);
+    return config;
   }
 
   @override

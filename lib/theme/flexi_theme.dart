@@ -45,6 +45,7 @@ abstract class FKTheme {
 
 
   Color get long => const Color(0xFFE84E74);
+  int get barType => 0;
 
   Color get short => const Color(0xFF33BD65);
 

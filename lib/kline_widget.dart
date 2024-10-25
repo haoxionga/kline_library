@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kline_library/kline.dart';
 import 'package:kline_library/update_controller.dart';
 import 'package:kline_library/theme/flexi_theme.dart';
 import 'package:kline_library/util/cache_util.dart';
@@ -26,11 +27,13 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 typedef GetCandleListCallBack = Future<List<CandleModel>> Function(
     CandleReq req);
 
+typedef OnInitCallBack = Function(FlexiKlineController controller);
 typedef OnTimeBarChange = Function(TimeBar newTimeBar);
 
 class KLineWidget extends StatefulWidget {
   ///支持的时间周期
   List<TimeBar> supportTimBars;
+  OnInitCallBack? onInitCallBack;
 
   ///根据CandleReq，异步返回k线图数据
   GetCandleListCallBack getCandleList;
@@ -69,6 +72,7 @@ class KLineWidget extends StatefulWidget {
       this.isShowMarketTooltipCustomView,
       this.updateController,
       this.onTimeBarChange,
+      this.onInitCallBack,
       this.initSize,
       this.isCanFullScreen = false,
       this.showBottomIndicator = true,
@@ -106,6 +110,7 @@ class _KLineWidgetState extends State<KLineWidget> {
     return isInitCache
         ? ProviderScope(
             child: KlineWidgetPrivate(
+            onInitCallBack: widget.onInitCallBack,
             labelConfig: widget.labelConfig,
             supportTimBars: widget.supportTimBars,
             showBottomIndicator: widget.showBottomIndicator,
@@ -132,10 +137,13 @@ class KlineWidgetPrivate extends ConsumerStatefulWidget {
       this.initSize,
       required this.labelConfig,
       this.onTimeBarChange,
+      this.onInitCallBack,
       required this.isCanFullScreen,
       required this.getCandleModelHistory,
       required this.showBottomIndicator,
       this.isShowMarketTooltipCustomView = false});
+
+  OnInitCallBack? onInitCallBack;
 
   ///是否允许全屏
   bool isCanFullScreen;
@@ -330,6 +338,9 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
 
   void _init() async {
     initKlineData().then((value) {});
+    if (widget.onInitCallBack != null) {
+      widget.onInitCallBack!.call(controller);
+    }
   }
 
   void openLandscapePage() async {
