@@ -16,7 +16,7 @@ dependencies:
   plugin_platform_interface: ^2.0.2
   flexi_kline:
     git:
-      url: https://github.com/haoxionga/kline_library/tree/main/plugin/FlexiKline
+      url: https://github.com/haoxionga/flexi_kline.git
 
 dev_dependencies:
   flutter_test:
