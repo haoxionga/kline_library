@@ -1,4 +1,7 @@
 # FlexiKline
+原作者：https://pub-web.flutter-io.cn/packages/flexi_kline
+
+这个版本在此基础上增加了空心实心切换功能
 
 一个灵活和可定制的Flutter金融图表。
 
