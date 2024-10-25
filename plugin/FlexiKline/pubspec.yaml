@@ -1,0 +1,29 @@
+name: flexi_kline
+description: "A flexible Kline package project."
+version: 0.6.1
+homepage: "https://flexikline.github.io"
+repository: "https://github.com/FlexiKline/FlexiKline"
+issue_tracker: "https://github.com/FlexiKline/FlexiKline/issues"
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  decimal: ^2.3.3
+  equatable: ^2.0.5
+  json_annotation: ^4.9.0
+  copy_with_extension: ^5.0.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+  build_runner: ^2.4.9
+  json_serializable: ^6.8.0
+  copy_with_extension_gen: ^5.0.4
+
+flutter:
