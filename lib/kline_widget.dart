@@ -174,6 +174,7 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
 
   @override
   void dispose() {
+
     widget.controller?.removeListener(_dataChanges);
     super.dispose();
   }
@@ -186,11 +187,12 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
   @override
   void initState() {
     req = widget.initReq;
-    configuration =
-        DefaultFlexiKlineConfiguration(ref: ref, initSize: widget.initSize);
+    configuration = DefaultFlexiKlineConfiguration(ref: ref, initSize: widget.initSize);
+
     controller = FlexiKlineController(
       configuration: configuration,
       logger: logger,
+      autoSave: true
     );
 
     controller.onCrossCustomTooltip = onCrossCustomTooltip;

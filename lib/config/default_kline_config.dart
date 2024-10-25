@@ -120,18 +120,20 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
 
   @override
   FlexiKlineConfig getFlexiKlineConfig([DefaultFlexiKlineTheme? theme]) {
+    print("klineconfig:调用读取方法:${theme?.key}");
+
     theme ??= ref.read(defaultKlineThemeProvider);
-    try {
+
       final String? jsonStr = CacheUtil().get(theme!.key);
       if (jsonStr != null && jsonStr.isNotEmpty) {
         final json = jsonDecode(jsonStr);
         if (json is Map<String, dynamic>) {
-          //return FlexiKlineConfig.fromJson(json);
+          FlexiKlineConfig type= FlexiKlineConfig.fromJson(json);
+          print("读取到当前配置的蜡烛图样式:${type.setting.barType}");
+          return type;
         }
       }
-    } catch (err, stack) {
-      // defLogger.e('getFlexiKlineConfig error:$err', stackTrace: stack);
-    }
+
 
     FlexiKlineConfig config= genFlexiKlineConfig(theme!);
     return config;
@@ -139,6 +141,8 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
 
   @override
   void saveFlexiKlineConfig(FlexiKlineConfig config) {
+    print("klineconfig:调用保存方法:${config.setting.barType}");
+
     final jsonSrc = jsonEncode(config);
     CacheUtil().setString(config.key, jsonSrc);
   }

@@ -93,7 +93,7 @@ class _LandscapeKlinePageState extends ConsumerState<LandscapeKlinePage> {
         );
     controller = FlexiKlineController(
       configuration: configuration,
-      autoSave: false,
+      autoSave: true,
     );
   
 
