@@ -132,46 +132,43 @@ class MarketTooltipCustomView extends ConsumerWidget {
           ),
           SizedBox(width: 6.r),
           Expanded(
-            child: Row(
+            child: Wrap(
 
               children: [
-                Expanded(child: Column(children: [
-                  KVItem(
-                    label: tooltipOpen,
-                    value: formatPrice(
-                      data?.o,
-                      precision: p,
-                      showThousands: true,
-                    ),
+                KVItem(
+                  label: tooltipOpen,
+                  value: formatPrice(
+                    data?.o,
+                    precision: p,
+                    showThousands: true,
                   ),
-                  KVItem(
-                    label: tooltipHigh,
-                    value: formatPrice(
-                      data?.h,
-                      precision: p,
-                      showThousands: true,
-                    ),
+
+                ),
+                KVItem(
+                  label: tooltipLow,
+                  value: formatPrice(
+                    data?.l,
+                    precision: p,
+                    showThousands: true,
                   ),
-                ],)),
-                SizedBox(width: 10.r,),
-                Expanded(child: Column(children: [
-                  KVItem(
-                    label: tooltipLow,
-                    value: formatPrice(
-                      data?.l,
-                      precision: p,
-                      showThousands: true,
-                    ),
+                )
+                ,  KVItem(
+                  label: tooltipHigh,
+                  value: formatPrice(
+                    data?.h,
+                    precision: p,
+                    showThousands: true,
                   ),
-                  KVItem(
-                    label: tooltipAmount,
-                    value: formatPrice(
-                      data?.v,
-                      precision: p,
-                      showThousands: true,
-                    ),
+                ),
+                KVItem(
+                  label: tooltipAmount,
+                  value: formatPrice(
+                    data?.v,
+                    precision: p,
+                    showThousands: true,
                   ),
-                ],)),
+                ),
+
 
 
               ],
@@ -197,20 +194,27 @@ class KVItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.read(themeProvider);
     return Container(
-      width: double.maxFinite,
       padding: EdgeInsetsDirectional.symmetric(horizontal: 4.r, vertical: 2.r),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             label,
             style: theme.t2s12w400,
           ),
-          Flexible(child: Text(
-            value,
-            style: theme.t1s12w400,
-          ))
+          SizedBox(width: 2,)
+          ,
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: 150.r, // 设置最大宽度为200
+            ),
+            child:  Text(
+              value,
+              style: theme.t1s12w400.copyWith(overflow: TextOverflow.ellipsis),
+            ),
+          )
+
         ],
       ),
     );
