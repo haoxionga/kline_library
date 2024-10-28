@@ -120,17 +120,22 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
   FlexiKlineConfig getFlexiKlineConfig([DefaultFlexiKlineTheme? theme]) {
     theme ??= ref.read(defaultKlineThemeProvider);
 
-    try {
-      final String? jsonStr = CacheUtil().get(theme!.key);
+    {
+      try {
 
-      if (jsonStr != null && jsonStr.isNotEmpty) {
-        final json = jsonDecode(jsonStr);
-        if (json is Map<String, dynamic>) {
-          FlexiKlineConfig type = FlexiKlineConfig.fromJson(json);
-          return type;
+        final String? jsonStr = CacheUtil().get(theme!.key);
+
+        if (jsonStr != null && jsonStr.isNotEmpty) {
+          final json = jsonDecode(jsonStr);
+          if (json is Map<String, dynamic>) {
+            FlexiKlineConfig type = FlexiKlineConfig.fromJson(json);
+            return type;
+          }
         }
-      }
-    } catch (e) {}
+      } catch (e) {}
+    }
+
+
 
     FlexiKlineConfig config = genFlexiKlineConfig(theme!);
     return config;
@@ -208,6 +213,8 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
         ),
         tipsPadding: theme.tipsPadding,
       ),
+
+
     ];
   }
 }

@@ -146,6 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   precision: 4,
                   displayName: '测试股票',
                 ),
+                autoCacheConfig: true,
                 labelConfig: StringLabelConfig(
                   tooltipTime: "时间",
                   tooltipOpen: "开盘",

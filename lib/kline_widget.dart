@@ -65,6 +65,9 @@ class KLineWidget extends StatefulWidget {
   ///是否允许全屏
   bool isCanFullScreen;
 
+  ///是否自动缓存配置
+  bool autoCacheConfig;
+
   final EdgeInsetsGeometry? bottomIndicatorMargin;
 
   KLineWidget(
@@ -78,6 +81,7 @@ class KLineWidget extends StatefulWidget {
       this.onInitCallBack,
       this.initSize,
       this.isCanFullScreen = false,
+      this.autoCacheConfig = false,
       this.showBottomIndicator = true,
       required this.marketTicker,
       required this.initReq});
@@ -124,6 +128,7 @@ class _KLineWidgetState extends State<KLineWidget> {
             onTimeBarChange: widget.onTimeBarChange,
             controller: widget.updateController,
             isCanFullScreen: widget.isCanFullScreen,
+              autoCacheConfig: widget.autoCacheConfig,
             initReq: widget.initReq,
             isShowMarketTooltipCustomView:
                 widget.isShowMarketTooltipCustomView ?? true,
@@ -142,6 +147,7 @@ class KlineWidgetPrivate extends ConsumerStatefulWidget {
       required this.labelConfig,
       this.onTimeBarChange,
       this.onInitCallBack,
+      this.autoCacheConfig=false,
       this.bottomIndicatorMargin,
       required this.isCanFullScreen,
       required this.getCandleModelHistory,
@@ -159,6 +165,7 @@ class KlineWidgetPrivate extends ConsumerStatefulWidget {
   OnTimeBarChange? onTimeBarChange;
   UpdateController? controller;
   bool showBottomIndicator;
+  bool autoCacheConfig=false;
   bool isShowMarketTooltipCustomView = false;
   List<TimeBar> supportTimBars;
   GetCandleListCallBack getCandleModelHistory;
@@ -189,6 +196,7 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
     tag: 'Demo',
   );
 
+
   @override
   void initState() {
     req = widget.initReq;
@@ -197,8 +205,9 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
     controller = FlexiKlineController(
       configuration: configuration,
       logger: logger,
-      autoSave: true
+      autoSave: widget.autoCacheConfig
     );
+
 
     controller.onCrossCustomTooltip = onCrossCustomTooltip;
 

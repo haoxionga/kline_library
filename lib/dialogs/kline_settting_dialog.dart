@@ -359,7 +359,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
   Widget _build_candle_type() {
     final theme = ref.watch(themeProvider);
     final s = widget.labelConfig;
-    List<String?> titles = [s.barTypeFill, s.barTypeFill, s.barTypeEmptyLong, s.barTypeEmptyShort];
+    List<String?> titles = [s.barTypeFill, s.barTypeEmpty, s.barTypeEmptyLong, s.barTypeEmptyShort];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

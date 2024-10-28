@@ -100,11 +100,9 @@ packages:
   flexi_kline:
     dependency: transitive
     description:
-      path: "plugin/FlexiKline"
-      ref: HEAD
-      resolved-ref: a4ac7222c967591a1bcdbc13b03727fa745d6420
-      url: "https://github.com/haoxionga/kline_library"
-    source: git
+      path: "../plugin/FlexiKline"
+      relative: true
+    source: path
     version: "0.6.1"
   flutter:
     dependency: "direct main"
