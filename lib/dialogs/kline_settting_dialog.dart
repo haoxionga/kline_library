@@ -331,7 +331,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
     );
   }
 
-  Widget _build_bar_setitem(int index, String title) {
+  Widget _build_bar_setitem(int index, String? title) {
     final theme = ref.watch(themeProvider);
     final s = widget.labelConfig;
     final klineState = ref.watch(klineStateProvider(widget.controller));
@@ -346,7 +346,7 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
         },
         controlAffinity: ListTileControlAffinity.leading,
         title: Text(
-          title,
+          title??"",
           style: theme.t1s14w500,
         ),
         activeColor: theme.t1,
@@ -359,12 +359,12 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
   Widget _build_candle_type() {
     final theme = ref.watch(themeProvider);
     final s = widget.labelConfig;
-    List<String> titles = ["全实心", "全空心", "涨空心", "跌空心"];
+    List<String?> titles = [s.barTypeFill, s.barTypeFill, s.barTypeEmptyLong, s.barTypeEmptyShort];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "蜡烛图类型",
+          s.barTypeName??"",
           style: theme.t1s14w500,
         ),
         Row(

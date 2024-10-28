@@ -35,6 +35,12 @@ class StringLabelConfig {
    String? h24Vol;
    String? h24Turnover;
 
+   String? barTypeFill;
+   String? barTypeName;
+   String? barTypeEmpty;
+   String? barTypeEmptyLong;
+   String? barTypeEmptyShort;
+
    StringLabelConfig({
     this.tooltipTime,
     this.tooltipOpen,
@@ -67,6 +73,12 @@ class StringLabelConfig {
     this.h24Low,
     this.h24Vol,
     this.h24Turnover,
+
+    this.barTypeFill,
+    this.barTypeEmpty,
+    this.barTypeEmptyLong,
+    this.barTypeEmptyShort,
+     this.barTypeName
   });
 
 }

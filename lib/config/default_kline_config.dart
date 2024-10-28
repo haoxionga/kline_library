@@ -25,9 +25,6 @@ import '../indicators/avl_indicator.dart';
 import '../theme/flexi_theme.dart';
 import '../util/cache_util.dart';
 
-
-
-
 class DefaultFlexiKlineTheme extends BaseFlexiKlineTheme
     with FlexiKlineThemeTextStyle {
   final FKTheme theme;
@@ -35,40 +32,40 @@ class DefaultFlexiKlineTheme extends BaseFlexiKlineTheme
   DefaultFlexiKlineTheme({
     required this.theme,
   }) : super(
-    barType: theme.barType,
-    long: theme.long,
-    short: theme.short,
-    chartBg: theme.pageBg,
-    tooltipBg: theme.markBg,
-    countDownTextBg: theme.markBg,
-    crossTextBg: theme.lightBg,
-    transparent: theme.transparent,
-    lastPriceTextBg: theme.translucentBg,
-    gridLine: theme.gridLine,
-    crosshair: theme.t1,
-    priceMarkLine: theme.t1,
-    textColor: theme.t1,
-    tickTextColor: theme.t2,
-    lastPriceTextColor: theme.t1,
-    crossTextColor: theme.tlight,
-    tooltipTextColor: theme.t1,
-  );
+          barType: theme.barType,
+          long: theme.long,
+          short: theme.short,
+          chartBg: theme.pageBg,
+          tooltipBg: theme.markBg,
+          countDownTextBg: theme.markBg,
+          crossTextBg: theme.lightBg,
+          transparent: theme.transparent,
+          lastPriceTextBg: theme.translucentBg,
+          gridLine: theme.gridLine,
+          crosshair: theme.t1,
+          priceMarkLine: theme.t1,
+          textColor: theme.t1,
+          tickTextColor: theme.t2,
+          lastPriceTextColor: theme.t1,
+          crossTextColor: theme.tlight,
+          tooltipTextColor: theme.t1,
+        );
 
   DefaultFlexiKlineTheme.simple({
     required this.theme,
   }) : super.simple(
-    barType: theme.barType,
-    long: theme.long,
-    short: theme.short,
-    chartBg: theme.pageBg,
-    markBg: theme.markBg,
-    crossTextBg: theme.lightBg,
-    lastPriceTextBg: theme.translucentBg,
-    color: theme.t1,
-    gridLine: theme.gridLine,
-    tickTextColor: theme.t2,
-    crossTextColor: theme.tlight,
-  );
+          barType: theme.barType,
+          long: theme.long,
+          short: theme.short,
+          chartBg: theme.pageBg,
+          markBg: theme.markBg,
+          crossTextBg: theme.lightBg,
+          lastPriceTextBg: theme.translucentBg,
+          color: theme.t1,
+          gridLine: theme.gridLine,
+          tickTextColor: theme.t2,
+          crossTextColor: theme.tlight,
+        );
 
   @override
   String get key {
@@ -76,13 +73,15 @@ class DefaultFlexiKlineTheme extends BaseFlexiKlineTheme
   }
 
   double? _scale;
+
   @override
   double get scale => _scale ??= math.min(
-    ScreenUtil().scaleWidth,
-    ScreenUtil().scaleHeight,
-  );
+        ScreenUtil().scaleWidth,
+        ScreenUtil().scaleHeight,
+      );
 
   double? _pixel;
+
   @override
   double get pixel {
     if (_pixel != null) return _pixel!;
@@ -97,8 +96,6 @@ class DefaultFlexiKlineTheme extends BaseFlexiKlineTheme
 
   @override
   double setSp(num fontSize) => ScreenUtil().setSp(fontSize);
-
-
 }
 
 final defaultKlineThemeProvider = StateProvider<DefaultFlexiKlineTheme>((ref) {
@@ -111,38 +108,36 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
   final WidgetRef ref;
 
   Size? initSize;
-  DefaultFlexiKlineConfiguration({required this.ref,this.initSize});
+
+  DefaultFlexiKlineConfiguration({required this.ref, this.initSize});
 
   @override
   Size get initialMainSize {
-    return initSize??Size(ScreenUtil().screenWidth, 300.r);
+    return initSize ?? Size(ScreenUtil().screenWidth, 300.r);
   }
 
   @override
   FlexiKlineConfig getFlexiKlineConfig([DefaultFlexiKlineTheme? theme]) {
-    print("klineconfig:调用读取方法:${theme?.key}");
-
     theme ??= ref.read(defaultKlineThemeProvider);
 
+    try {
       final String? jsonStr = CacheUtil().get(theme!.key);
+
       if (jsonStr != null && jsonStr.isNotEmpty) {
         final json = jsonDecode(jsonStr);
         if (json is Map<String, dynamic>) {
-          FlexiKlineConfig type= FlexiKlineConfig.fromJson(json);
-          print("读取到当前配置的蜡烛图样式:${type.setting.barType}");
+          FlexiKlineConfig type = FlexiKlineConfig.fromJson(json);
           return type;
         }
       }
+    } catch (e) {}
 
-
-    FlexiKlineConfig config= genFlexiKlineConfig(theme!);
+    FlexiKlineConfig config = genFlexiKlineConfig(theme!);
     return config;
   }
 
   @override
   void saveFlexiKlineConfig(FlexiKlineConfig config) {
-    print("klineconfig:调用保存方法:${config.setting.barType}");
-
     final jsonSrc = jsonEncode(config);
     CacheUtil().setString(config.key, jsonSrc);
   }
@@ -150,45 +145,45 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
   @override
   CandleIndicator genCandleIndicator(covariant IFlexiKlineTheme theme) {
     return super.genCandleIndicator(theme).copyWith(
-      useCandleColorAsLatestBg: false, // 不使用蜡烛色做背景
-      latest: MarkConfig(
-        show: true,
-        spacing: 1.r,
-        line: LineConfig(
-          type: LineType.dashed,
-          color: theme.priceMarkLine,
-          width: 0.5.r,
-          dashes: [3, 3],
-        ),
-        text: TextAreaConfig(
-          style: TextStyle(
-            fontSize: theme.normalTextSize,
-            color: theme.textColor,
-            overflow: TextOverflow.ellipsis,
-            height: defaultTextHeight,
+          useCandleColorAsLatestBg: false, // 不使用蜡烛色做背景
+          latest: MarkConfig(
+            show: true,
+            spacing: 1.r,
+            line: LineConfig(
+              type: LineType.dashed,
+              color: theme.priceMarkLine,
+              width: 0.5.r,
+              dashes: [3, 3],
+            ),
+            text: TextAreaConfig(
+              style: TextStyle(
+                fontSize: theme.normalTextSize,
+                color: theme.textColor,
+                overflow: TextOverflow.ellipsis,
+                height: defaultTextHeight,
+              ),
+              background: theme.chartBg,
+              minWidth: 45.r,
+              textAlign: TextAlign.center,
+              padding: theme.textPading,
+              border: BorderSide(color: theme.textColor, width: 0.5.r),
+              borderRadius: BorderRadius.all(Radius.circular(2 * theme.scale)),
+            ),
           ),
-          background: theme.chartBg,
-          minWidth: 45.r,
-          textAlign: TextAlign.center,
-          padding: theme.textPading,
-          border: BorderSide(color: theme.textColor, width: 0.5.r),
-          borderRadius: BorderRadius.all(Radius.circular(2 * theme.scale)),
-        ),
-      ),
-      countDown: TextAreaConfig(
-        style: TextStyle(
-          fontSize: theme.normalTextSize,
-          color: theme.textColor,
-          overflow: TextOverflow.ellipsis,
-          height: defaultTextHeight,
-        ),
-        textAlign: TextAlign.center,
-        background: theme.countDownTextBg,
-        padding: theme.textPading,
-        border: BorderSide(color: theme.textColor, width: 0.5.r),
-        borderRadius: BorderRadius.all(Radius.circular(2 * theme.scale)),
-      ),
-    );
+          countDown: TextAreaConfig(
+            style: TextStyle(
+              fontSize: theme.normalTextSize,
+              color: theme.textColor,
+              overflow: TextOverflow.ellipsis,
+              height: defaultTextHeight,
+            ),
+            textAlign: TextAlign.center,
+            background: theme.countDownTextBg,
+            padding: theme.textPading,
+            border: BorderSide(color: theme.textColor, width: 0.5.r),
+            borderRadius: BorderRadius.all(Radius.circular(2 * theme.scale)),
+          ),
+        );
   }
 
   @override

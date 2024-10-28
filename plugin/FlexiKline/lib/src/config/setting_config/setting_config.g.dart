@@ -366,6 +366,7 @@ SettingConfig _$SettingConfigFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SettingConfigToJson(SettingConfig instance) {
   final val = <String, dynamic>{
     'pixel': instance.pixel,
+    'barType': instance.barType,
     'textColor': const ColorConverter().toJson(instance.textColor),
     'longColor': const ColorConverter().toJson(instance.longColor),
     'shortColor': const ColorConverter().toJson(instance.shortColor),
