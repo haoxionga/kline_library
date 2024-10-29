@@ -37,6 +37,7 @@ class FlexiKlineMarkView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(themeProvider);
     return Container(
+
       alignment: alignment ?? AlignmentDirectional.bottomStart,
       margin: margin,
       padding: EdgeInsetsDirectional.symmetric(horizontal: 6.r),

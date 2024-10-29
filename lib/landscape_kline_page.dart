@@ -19,6 +19,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kline_library/model/string_label_config.dart';
 import 'package:kline_library/provider/market_candle_provider.dart';
+import 'package:kline_library/theme/flexi_theme.dart';
 import 'package:kline_library/update_controller.dart';
 import 'package:kline_library/util/screen_util.dart';
 import 'package:kline_library/widget/flexi_kline_landscape_indicator_bar.dart';
@@ -43,6 +44,7 @@ class LandscapeKlinePage extends ConsumerStatefulWidget {
     required this.labelConfig,
     this.updateController,
   });
+
   final StringLabelConfig labelConfig;
 
   ///根据CandleReq，异步返回支持的k线图数据
@@ -66,21 +68,21 @@ class _LandscapeKlinePageState extends ConsumerState<LandscapeKlinePage> {
   FlexiKlineController get flexiKlineController => controller;
   late CandleReq req;
 
-  Map<TooltipLabel, String> _initTollTipLables(){
-    
+  Map<TooltipLabel, String> _initTollTipLables() {
     return {
-      TooltipLabel.time: widget.labelConfig.tooltipTime??"",
-      TooltipLabel.open: widget.labelConfig.tooltipOpen??"",
-      TooltipLabel.high: widget.labelConfig.tooltipHigh??"",
-      TooltipLabel.low: widget.labelConfig.tooltipLow??"",
-      TooltipLabel.close: widget.labelConfig.tooltipClose??"",
-      TooltipLabel.chg: widget.labelConfig.tooltipChg??"",
-      TooltipLabel.chgRate: widget.labelConfig.tooltipChgRate??"",
-      TooltipLabel.range: widget.labelConfig.tooltipRange??"",
-      TooltipLabel.amount: widget.labelConfig.tooltipAmount??"",
-      TooltipLabel.turnover: widget.labelConfig.tooltipTurnover??"",
+      TooltipLabel.time: widget.labelConfig.tooltipTime ?? "",
+      TooltipLabel.open: widget.labelConfig.tooltipOpen ?? "",
+      TooltipLabel.high: widget.labelConfig.tooltipHigh ?? "",
+      TooltipLabel.low: widget.labelConfig.tooltipLow ?? "",
+      TooltipLabel.close: widget.labelConfig.tooltipClose ?? "",
+      TooltipLabel.chg: widget.labelConfig.tooltipChg ?? "",
+      TooltipLabel.chgRate: widget.labelConfig.tooltipChgRate ?? "",
+      TooltipLabel.range: widget.labelConfig.tooltipRange ?? "",
+      TooltipLabel.amount: widget.labelConfig.tooltipAmount ?? "",
+      TooltipLabel.turnover: widget.labelConfig.tooltipTurnover ?? "",
     };
   }
+
   @override
   void initState() {
     super.initState();
@@ -95,7 +97,6 @@ class _LandscapeKlinePageState extends ConsumerState<LandscapeKlinePage> {
       configuration: configuration,
       autoSave: true,
     );
-  
 
     controller.onCrossI18nTooltipLables = _initTollTipLables;
 
@@ -166,12 +167,12 @@ class _LandscapeKlinePageState extends ConsumerState<LandscapeKlinePage> {
           leading: const SizedBox.shrink(),
           leadingWidth: 4.r,
           title: MarketTickerLandscapeView(
-            
             instId: req.instId,
             marketTicker: widget.marketTicker,
             precision: req.precision,
             long: controller.settingConfig.longColor,
-            short: controller.settingConfig.shortColor, labelConfig: widget.labelConfig,
+            short: controller.settingConfig.shortColor,
+            labelConfig: widget.labelConfig,
           ),
           centerTitle: false,
           titleSpacing: 0,
@@ -185,11 +186,10 @@ class _LandscapeKlinePageState extends ConsumerState<LandscapeKlinePage> {
               child: Container(
                 margin: EdgeInsets.only(right: 10.r),
                 width: 30.r,
-                height: 30.r,
-                alignment: AlignmentDirectional.center,
+                height: double.maxFinite,
                 child: Icon(
                   Icons.fullscreen_exit_rounded,
-                  size: 30.r,
+                  size: 25.r,
                 ),
               ),
             ),
@@ -205,17 +205,18 @@ class _LandscapeKlinePageState extends ConsumerState<LandscapeKlinePage> {
         ),
         body: OrientationBuilder(
           builder: (context, orientation) {
-            if (orientation == Orientation.portrait) {
-              return Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: controller.settingConfig.loading.strokeWidth,
-                  backgroundColor: controller.settingConfig.loading.background,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    controller.settingConfig.loading.valueColor,
-                  ),
-                ),
-              );
-            }
+            ///判断设备是否是ipad
+            // if (orientation == Orientation.portrait) {
+            //   return Center(
+            //     child: CircularProgressIndicator(
+            //       strokeWidth: controller.settingConfig.loading.strokeWidth,
+            //       backgroundColor: controller.settingConfig.loading.background,
+            //       valueColor: AlwaysStoppedAnimation<Color>(
+            //         controller.settingConfig.loading.valueColor,
+            //       ),
+            //     ),
+            //   );
+            // }
             return SafeArea(
               top: false,
               left: true,
@@ -239,39 +240,43 @@ class _LandscapeKlinePageState extends ConsumerState<LandscapeKlinePage> {
   }
 
   Widget _buildBodyView(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              controller.logd('zp::: LandscapeKlinePage:$constraints');
-              controller.setFixedSize(
-                Size(constraints.maxWidth, constraints.maxHeight),
-              );
-              return FlexiKlineWidget(
-                controller: controller,
-                mainBackgroundView: FlexiKlineMarkView(
-                  margin: EdgeInsetsDirectional.only(
-                    bottom: 10.r,
-                    start: 36.r,
+    final theme = ref.watch(themeProvider);
+    return Container(
+      color: theme.pageBg,
+      child: Row(
+        children: [
+          Expanded(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                controller.logd('zp::: LandscapeKlinePage:$constraints');
+                controller.setFixedSize(
+                  Size(constraints.maxWidth, constraints.maxHeight),
+                );
+                return FlexiKlineWidget(
+                  controller: controller,
+                  mainBackgroundView: FlexiKlineMarkView(
+                    margin: EdgeInsetsDirectional.only(
+                      bottom: 10.r,
+                      start: 36.r,
+                    ),
                   ),
-                ),
-                mainforegroundViewBuilder: _buildKlineMainForgroundView,
-              );
-            },
+                  mainforegroundViewBuilder: _buildKlineMainForgroundView,
+                );
+              },
+            ),
           ),
-        ),
-        SizedBox(
-          width: 50.r,
-          child: Stack(
-            children: [
-              FlexiKlineLandscapeIndicatorBar(
-                controller: controller,
-              )
-            ],
-          ),
-        )
-      ],
+          SizedBox(
+            width: 50.r,
+            child: Stack(
+              children: [
+                FlexiKlineLandscapeIndicatorBar(
+                  controller: controller,
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 

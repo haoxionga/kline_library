@@ -255,6 +255,8 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
 
   @override
   Widget build(BuildContext context) {
+
+
     Widget content = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
