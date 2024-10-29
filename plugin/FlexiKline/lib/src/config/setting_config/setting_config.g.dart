@@ -8,6 +8,7 @@ part of 'setting_config.dart';
 
 abstract class _$SettingConfigCWProxy {
   SettingConfig barType(int barType);
+  SettingConfig longRed(bool longRed);
 
   SettingConfig pixel(double pixel);
 
@@ -61,6 +62,7 @@ abstract class _$SettingConfigCWProxy {
   SettingConfig call({
     double? pixel,
     int? barType,
+    bool? longRed,
     Color? textColor,
     Color? longColor,
     Color? shortColor,
@@ -92,6 +94,8 @@ class _$SettingConfigCWProxyImpl implements _$SettingConfigCWProxy {
 
   @override
   SettingConfig barType(int barType) => this(barType: barType);
+
+  SettingConfig longRed(bool longRed) => this(longRed: longRed);
 
   @override
   SettingConfig pixel(double pixel) => this(pixel: pixel);
@@ -183,6 +187,7 @@ class _$SettingConfigCWProxyImpl implements _$SettingConfigCWProxy {
   SettingConfig call({
     Object? pixel = const $CopyWithPlaceholder(),
     Object? barType = const $CopyWithPlaceholder(),
+    Object? longRed = const $CopyWithPlaceholder(),
     Object? textColor = const $CopyWithPlaceholder(),
     Object? longColor = const $CopyWithPlaceholder(),
     Object? shortColor = const $CopyWithPlaceholder(),
@@ -312,6 +317,12 @@ class _$SettingConfigCWProxyImpl implements _$SettingConfigCWProxy {
           ? _value.barType
       // ignore: cast_nullable_to_non_nullable
           : barType as int,
+
+      longRed:
+      longRed == const $CopyWithPlaceholder() || longRed == null
+          ? _value.longRed
+      // ignore: cast_nullable_to_non_nullable
+          : longRed as bool,
     );
   }
 }
@@ -347,6 +358,7 @@ SettingConfig _$SettingConfigFromJson(Map<String, dynamic> json) =>
       minPaintBlankRate: (json['minPaintBlankRate'] as num?)?.toDouble() ?? 0.5,
       alwaysCalculateScreenOfCandlesIfEnough:
           json['alwaysCalculateScreenOfCandlesIfEnough'] as bool? ?? false,
+      longRed: json['longRed'] as bool? ?? false,
 
 
 
@@ -367,6 +379,7 @@ Map<String, dynamic> _$SettingConfigToJson(SettingConfig instance) {
   final val = <String, dynamic>{
     'pixel': instance.pixel,
     'barType': instance.barType,
+    'longRed': instance.longRed,
     'textColor': const ColorConverter().toJson(instance.textColor),
     'longColor': const ColorConverter().toJson(instance.longColor),
     'shortColor': const ColorConverter().toJson(instance.shortColor),

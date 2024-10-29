@@ -33,6 +33,7 @@ class DefaultFlexiKlineTheme extends BaseFlexiKlineTheme
     required this.theme,
   }) : super(
           barType: theme.barType,
+        longRed: theme.longRed,
           long: theme.long,
           short: theme.short,
           chartBg: theme.pageBg,
@@ -55,6 +56,7 @@ class DefaultFlexiKlineTheme extends BaseFlexiKlineTheme
     required this.theme,
   }) : super.simple(
           barType: theme.barType,
+    longRed: theme.longRed,
           long: theme.long,
           short: theme.short,
           chartBg: theme.pageBg,
@@ -115,6 +117,7 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
   Size get initialMainSize {
     return initSize ?? Size(ScreenUtil().screenWidth, 300.r);
   }
+  String cacheKey="kline_theme_1";
 
   @override
   FlexiKlineConfig getFlexiKlineConfig([DefaultFlexiKlineTheme? theme]) {
@@ -123,7 +126,8 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
     {
       try {
 
-        final String? jsonStr = CacheUtil().get(theme!.key);
+        final String? jsonStr = CacheUtil().get(cacheKey);
+
 
         if (jsonStr != null && jsonStr.isNotEmpty) {
           final json = jsonDecode(jsonStr);
@@ -144,7 +148,7 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
   @override
   void saveFlexiKlineConfig(FlexiKlineConfig config) {
     final jsonSrc = jsonEncode(config);
-    CacheUtil().setString(config.key, jsonSrc);
+    CacheUtil().setString(cacheKey, jsonSrc);
   }
 
   @override

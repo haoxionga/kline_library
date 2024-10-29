@@ -62,8 +62,10 @@ mixin CrossBinding
   }
 
   final ValueNotifier<int> _repaintCross = ValueNotifier(0);
+
   @override
   Listenable get repaintCross => _repaintCross;
+
   void _markRepaint() {
     _repaintCross.value++;
   }
@@ -82,7 +84,9 @@ mixin CrossBinding
   bool get isCrossing => offset?.isFinite == true;
 
   Offset? _offset;
+
   Offset? get offset => _offset;
+
   set offset(Offset? val) {
     if (val != null) {
       _offset = _correctCrossOffset(val);
@@ -263,9 +267,15 @@ mixin CrossBinding
       ));
       TextStyle valStyle = info.valueStyle ?? tooltipConfig.style;
       if (info.riseOrFall > 0) {
-        valStyle = valStyle.copyWith(color: settingConfig.longColor);
+        valStyle = valStyle.copyWith(
+            color: settingConfig.longRed
+                ? settingConfig.longColor
+                : settingConfig.shortColor);
       } else if (info.riseOrFall < 0) {
-        valStyle = valStyle.copyWith(color: settingConfig.shortColor);
+        valStyle = valStyle.copyWith(
+            color: !settingConfig.longRed
+                ? settingConfig.longColor
+                : settingConfig.shortColor);
       }
       valueSpanList.add(TextSpan(
         text: info.value + br,

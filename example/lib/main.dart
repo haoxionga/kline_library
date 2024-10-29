@@ -184,6 +184,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   barTypeEmpty: "全空心",
                   barTypeEmptyLong: "涨空心",
                   barTypeEmptyShort: "跌空心",
+                  barColor: "蜡烛图颜色",
+                  barColorLongGreen: "红跌绿涨",
+                  barColorLongRed: "红涨绿跌"
                 ),
               )
             ],

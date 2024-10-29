@@ -25,6 +25,9 @@ abstract interface class IFlexiKlineTheme {
   /// 缓存Key
   String get key;
 
+  ///是否是涨的为红色，默认配置的颜色：涨的配置为红色，跌的为绿色，所以根据这个配置，涨的就为绿色
+  bool get longRed;
+
   /// 实际尺寸与UI设计的比例
   int get barType;
 

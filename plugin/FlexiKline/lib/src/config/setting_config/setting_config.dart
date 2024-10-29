@@ -30,6 +30,8 @@ class SettingConfig {
     required this.pixel,
     required this.barType,
 
+    required this.longRed,
+
 
     /// Long/Short颜色配置
     required this.textColor,
@@ -71,6 +73,13 @@ class SettingConfig {
 
   ///蜡烛图的样式，0全实心，1全空心，2涨空心，3跌空心
   final int barType;
+
+
+
+
+
+  ////上涨的是否是红色
+  final bool longRed;
   /// 单个像素值
   final double pixel;
 
@@ -169,53 +178,73 @@ class SettingConfig {
 }
 
 extension SettingDataExt on SettingConfig {
+
+
+  Color get longColorRevert=>longRed?longColor:shortColor;
+  Color get shortColorRevert=>!longRed?longColor:shortColor;
+
   /// 指标图 涨跌 bar/line 配置
-  Color get longTintColor => longColor.withOpacity(opacity);
-  Color get shortTintColor => shortColor.withOpacity(opacity);
+  Color get longTintColor => longColorRevert.withOpacity(opacity);
   // 实心
   Paint get defLongBarPaint => Paint()
-    ..color = longColor
+    ..color = longColorRevert
     ..style = PaintingStyle.stroke
     ..strokeWidth = candleWidth;
 
   Paint get defLongBarEmptyPaint => Paint()
-    ..color = longColor
-    ..style = PaintingStyle.stroke
-    ..strokeWidth = candleLineWidth;
-  Paint get defShortBarEmptyPaint => Paint()
-    ..color = shortColor
+    ..color = longColorRevert
     ..style = PaintingStyle.stroke
     ..strokeWidth = candleLineWidth;
 
-  Paint get defShortBarPaint => Paint()
-    ..color = shortColor
+
+  // 空心
+  Paint get defLongHollowBarPaint => Paint()
+    ..color = longColorRevert
     ..style = PaintingStyle.stroke
-    ..strokeWidth = candleWidth;
+    ..strokeWidth = 1;
+  // 线
+  Paint get defLongLinePaint => Paint()
+    ..color = longColorRevert
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = candleLineWidth;
   // 实心, 浅色
   Paint get defLongTintBarPaint => Paint()
     ..color = longTintColor
     ..style = PaintingStyle.stroke
     ..strokeWidth = candleWidth;
+
+
+
+
+
+  Color get shortTintColor => shortColorRevert.withOpacity(opacity);
+
+
+  Paint get defShortBarEmptyPaint => Paint()
+    ..color = shortColorRevert
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = candleLineWidth;
+
+  Paint get defShortBarPaint => Paint()
+    ..color = shortColorRevert
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = candleWidth;
+
   Paint get defShortTintBarPaint => Paint()
     ..color = shortTintColor
     ..style = PaintingStyle.stroke
     ..strokeWidth = candleWidth;
-  // 空心
-  Paint get defLongHollowBarPaint => Paint()
-    ..color = longColor
-    ..style = PaintingStyle.stroke
-    ..strokeWidth = 1;
+
+
+
   Paint get defShortHollowBarPaint => Paint()
-    ..color = shortColor
+    ..color = shortColorRevert
     ..style = PaintingStyle.stroke
     ..strokeWidth = 1;
-  // 线
-  Paint get defLongLinePaint => Paint()
-    ..color = longColor
-    ..style = PaintingStyle.stroke
-    ..strokeWidth = candleLineWidth;
+
+
   Paint get defShortLinePaint => Paint()
-    ..color = shortColor
+    ..color = shortColorRevert
     ..style = PaintingStyle.stroke
     ..strokeWidth = candleLineWidth;
 }

@@ -264,6 +264,7 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
         if (widget.isShowMarketTooltipCustomView)
           MarketTooltipCustomView(
             candleReq: req,
+            controller: controller,
             data: controller.curKlineData.latest,
             tooltipOpen: widget.labelConfig.tooltipOpen ?? "",
             tooltipHigh: widget.labelConfig.tooltipHigh ?? "",

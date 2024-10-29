@@ -44,10 +44,13 @@ abstract class FKTheme {
   // Color get short => const Color(0xFFE84E74);
 
 
-  Color get long => const Color(0xFFE84E74);
+  Color get long => const Color(0xfffc5959);
+  Color get short => const Color(0xff4DCC95);
   int get barType => 0;
+  ///是否是红涨绿跌，
+  bool get longRed => false;
 
-  Color get short => const Color(0xFF33BD65);
+
 
   Color get white => Colors.white;
 

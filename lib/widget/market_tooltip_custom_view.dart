@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../provider/kline_controller_state_provider.dart';
 import '../provider/market_candle_provider.dart';
 import '../theme/flexi_theme.dart';
 
@@ -29,6 +30,7 @@ class MarketTooltipCustomView extends ConsumerWidget {
     required this.tooltipHigh,
     required this.tooltipLow,
     required this.tooltipAmount,
+    required this.controller,
   });
 
   final String tooltipOpen;
@@ -38,6 +40,7 @@ class MarketTooltipCustomView extends ConsumerWidget {
   final CandleReq candleReq;
   final CandleModel? data;
 
+  final FlexiKlineController controller;
   int get p => candleReq.precision;
 
   @override
@@ -58,14 +61,17 @@ class MarketTooltipCustomView extends ConsumerWidget {
     final changeRate = data?.changeRate;
     Color rateColor;
     Color? marketBg;
+    final klineState = ref.watch(klineStateProvider(controller));
+
     if (changeRate == null || changeRate == 0) {
       rateColor = theme.t1;
     } else if (changeRate > 0) {
-      rateColor = theme.long;
-      marketBg = theme.long;
+      ////涨，
+      rateColor = klineState.longRed?theme.long:theme.short;
+      marketBg =klineState.longRed?theme.long:theme.short;
     } else {
-      rateColor = theme.short;
-      marketBg = theme.short;
+      rateColor =!klineState.longRed?theme.long:theme.short;
+      marketBg = !klineState.longRed?theme.long:theme.short;
     }
     return Container(
       height: 60.r,

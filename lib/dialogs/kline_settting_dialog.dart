@@ -320,9 +320,8 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
               ),
             ],
           ),
-          Row(
-            children: [Expanded(child: _build_candle_type())],
-          ),
+          _build_candle_type(),
+          _build_candle_color(),
           SizedBox(
             height: 6.r,
           ),
@@ -331,40 +330,87 @@ class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
     );
   }
 
+  Widget _build_check_item(
+      {required bool value,
+      required String? title,
+      Function(bool value)? onChange}) {
+    final theme = ref.watch(themeProvider);
+    return CheckboxListTile(
+      dense: true,
+      value: value,
+      contentPadding: EdgeInsets.zero,
+      onChanged: (value) {
+        if (onChange != null) {
+          onChange(value ?? false);
+        }
+      },
+      controlAffinity: ListTileControlAffinity.leading,
+      title: Text(
+        title ?? "",
+        style: theme.t1s14w500,
+      ),
+      activeColor: theme.t1,
+      selected: true,
+      checkColor: theme.tlight,
+    );
+  }
+
   Widget _build_bar_setitem(int index, String? title) {
+    final theme = ref.watch(themeProvider);
+    final klineState = ref.watch(klineStateProvider(widget.controller));
+    return Expanded(
+        child: _build_check_item(
+            value: klineState.barType == index,
+            title: title,
+            onChange: (value) {
+              klineState.setCandleBarType(index);
+            }));
+
+  }
+
+  Widget _build_candle_color() {
     final theme = ref.watch(themeProvider);
     final s = widget.labelConfig;
     final klineState = ref.watch(klineStateProvider(widget.controller));
-    return Expanded(
-      child: CheckboxListTile(
-        dense: true,
-        value: klineState.barType == index,
-        contentPadding: EdgeInsets.zero,
-        onChanged: (value) {
-          klineState.setCandleBarType(index);
 
-        },
-        controlAffinity: ListTileControlAffinity.leading,
-        title: Text(
-          title??"",
+    List<String?> titles = [s.barColorLongGreen??"", s.barColorLongRed??""];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          s.barColor??"",
           style: theme.t1s14w500,
         ),
-        activeColor: theme.t1,
-        selected: true,
-        checkColor: theme.tlight,
-      ),
+        Row(
+          children: [
+         Expanded(child: _build_check_item(value: !klineState.longRed , title: titles[0],onChange: (value){
+           klineState.setCandleBarColor(false);
+
+         })),
+         Expanded(child: _build_check_item(value: klineState.longRed , title: titles[1],onChange: (value){
+           klineState.setCandleBarColor(true);
+
+         })),
+          ],
+        ),
+      ],
     );
   }
 
   Widget _build_candle_type() {
     final theme = ref.watch(themeProvider);
     final s = widget.labelConfig;
-    List<String?> titles = [s.barTypeFill, s.barTypeEmpty, s.barTypeEmptyLong, s.barTypeEmptyShort];
+    List<String?> titles = [
+      s.barTypeFill,
+      s.barTypeEmpty,
+      s.barTypeEmptyLong,
+      s.barTypeEmptyShort
+    ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          s.barTypeName??"",
+          s.barTypeName ?? "",
           style: theme.t1s14w500,
         ),
         Row(

@@ -98,6 +98,7 @@ abstract class BaseFlexiKlineTheme implements IFlexiKlineTheme {
     required this.crossTextColor,
     required this.tooltipTextColor,
     required this.barType,
+    required this.longRed,
   });
 
   BaseFlexiKlineTheme.simple({
@@ -113,6 +114,7 @@ abstract class BaseFlexiKlineTheme implements IFlexiKlineTheme {
     required this.tickTextColor,
     required this.crossTextColor,
     required this.barType,
+    required this.longRed,
   })  : tooltipBg = markBg,
         countDownTextBg = markBg,
         crosshair = color,
@@ -122,6 +124,8 @@ abstract class BaseFlexiKlineTheme implements IFlexiKlineTheme {
         tooltipTextColor = color;
   @override
   late int barType;
+  @override
+  late bool longRed;
   @override
   late Color long;
   @override
@@ -222,6 +226,7 @@ mixin FlexiKlineThemeConfigurationMixin implements IConfiguration {
 
   SettingConfig genSettingConfig(covariant IFlexiKlineTheme theme) {
     return SettingConfig(
+      longRed: theme.longRed,
       pixel: theme.pixel,
       textColor: theme.textColor,
       longColor: theme.long,

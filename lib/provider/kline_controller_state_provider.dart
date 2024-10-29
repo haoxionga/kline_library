@@ -98,6 +98,18 @@ class KlineStateNotifier extends ChangeNotifier {
     return controller.settingConfig.barType;
   }
 
+  /// 蜡烛图颜色
+  bool get longRed {
+    return controller.settingConfig.longRed;
+  }
+
+
+  void setCandleBarColor(bool longRed) {
+    controller.settingConfig =
+        controller.settingConfig.copyWith(longRed: longRed);
+    notifyListeners();
+  }
+
   void setCandleBarType(int newBarType) {
     controller.settingConfig =
         controller.settingConfig.copyWith(barType: newBarType);

@@ -1,47 +1,48 @@
-
-
 class StringLabelConfig {
+  String? tooltipTime;
+  String? tooltipOpen;
+  String? tooltipHigh;
+  String? tooltipLow;
+  String? tooltipClose;
+  String? tooltipChg;
+  String? tooltipChgRate;
+  String? tooltipRange;
+  String? tooltipAmount;
+  String? tooltipTurnover;
+  String? preferredIntervals;
+  String? intervals;
+  String? mainChartIndicators;
+  String? subChartIndicators;
+  String? indicatorSetting;
+  String? indicators;
+  String? more;
+  String? chartSettings;
+  String? landscape;
+  String? drawings;
+  String? lastPrice;
+  String? yAxisPriceScale;
+  String? countdown;
+  String? chartHeight;
+  String? chartWidth;
+  String? highPrice;
+  String? lowPrice;
 
-   String? tooltipTime;
-   String? tooltipOpen;
-   String? tooltipHigh;
-   String? tooltipLow;
-   String? tooltipClose;
-   String? tooltipChg;
-   String? tooltipChgRate;
-   String? tooltipRange;
-   String? tooltipAmount;
-   String? tooltipTurnover;
-   String? preferredIntervals;
-   String? intervals;
-   String? mainChartIndicators;
-   String? subChartIndicators;
-   String? indicatorSetting;
-   String? indicators;
-   String? more;
-   String? chartSettings;
-   String? landscape;
-   String? drawings;
-   String? lastPrice;
-   String? yAxisPriceScale;
-   String? countdown;
-   String? chartHeight;
-   String? chartWidth;
-   String? highPrice;
-   String? lowPrice;
+  String? h24High;
+  String? h24Low;
+  String? h24Vol;
+  String? h24Turnover;
 
-   String? h24High;
-   String? h24Low;
-   String? h24Vol;
-   String? h24Turnover;
+  String? barTypeFill;
+  String? barTypeName;
+  String? barTypeEmpty;
+  String? barTypeEmptyLong;
+  String? barTypeEmptyShort;
 
-   String? barTypeFill;
-   String? barTypeName;
-   String? barTypeEmpty;
-   String? barTypeEmptyLong;
-   String? barTypeEmptyShort;
+  String? barColor;
+  String? barColorLongRed;
+  String? barColorLongGreen;
 
-   StringLabelConfig({
+  StringLabelConfig({
     this.tooltipTime,
     this.tooltipOpen,
     this.tooltipHigh,
@@ -73,12 +74,13 @@ class StringLabelConfig {
     this.h24Low,
     this.h24Vol,
     this.h24Turnover,
-
     this.barTypeFill,
     this.barTypeEmpty,
     this.barTypeEmptyLong,
     this.barTypeEmptyShort,
-     this.barTypeName
+    this.barTypeName,
+    this.barColor,
+    this.barColorLongRed,
+    this.barColorLongGreen,
   });
-
 }
