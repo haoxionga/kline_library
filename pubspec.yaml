@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
-  web: ^0.5.1
+
   plugin_platform_interface: ^2.0.2
   flexi_kline:
 #    path: ./plugin/FlexiKline
@@ -28,6 +28,7 @@ dev_dependencies:
   flutter_screenutil: ^5.9.3
   flutter_riverpod: ^2.5.1
   flutter_smart_dialog: ^4.9.8+3
+  web: ^0.5.1
 
 
 
