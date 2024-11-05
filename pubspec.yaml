@@ -60,8 +60,7 @@ flutter:
         pluginClass: KlineLibraryPlugin
       windows:
         pluginClass: KlineLibraryPlugin
-      web:
-        pluginClass: KlineLibraryPlugin
+
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
