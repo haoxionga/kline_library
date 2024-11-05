@@ -59,10 +59,9 @@ flutter:
       macos:
         pluginClass: KlineLibraryPlugin
       windows:
-        pluginClass: KlineLibraryPluginCApi
+        pluginClass: KlineLibraryPlugin
       web:
-        pluginClass: KlineLibraryWeb
-        fileName: kline_library_web.dart
+        pluginClass: KlineLibraryPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
