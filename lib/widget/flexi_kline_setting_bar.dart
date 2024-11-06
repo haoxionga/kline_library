@@ -22,6 +22,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import '../dialogs/indicators_select_dialog.dart';
 import '../dialogs/kline_settting_dialog.dart';
 import '../dialogs/timebar_select_dialog.dart';
+import '../kline_widget.dart';
 import '../mixin/wide_screen_mixin.dart';
 import '../model/string_label_config.dart';
 import '../theme/flexi_theme.dart';
@@ -38,7 +39,9 @@ class FlexiKlineSettingBar extends ConsumerStatefulWidget {
     this.decoration,
     required this.supportTimeBarList,
     required this.labelConfig,
+    required this.settingChangeCallBack,
   });
+  final SettingChangeCallBack? settingChangeCallBack;
 
   final StringLabelConfig labelConfig;
   final List<TimeBar> supportTimeBarList;
@@ -124,6 +127,7 @@ class _FlexiKlineSettingBarState extends ConsumerState<FlexiKlineSettingBar>
           child: KlineSettingDialog(
             labelConfig: widget.labelConfig,
         controller: widget.controller,
+            settingChangeCallBack: widget.settingChangeCallBack,
       )),
     );
   }

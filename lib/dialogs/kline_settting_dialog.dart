@@ -19,6 +19,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 import '../componets/flexi_kline_size_slider.dart';
+import '../kline_widget.dart';
 import '../model/string_label_config.dart';
 import '../provider/kline_controller_state_provider.dart';
 import '../theme/flexi_theme.dart';
@@ -28,12 +29,13 @@ import '../util/dialog_manager.dart';
 class KlineSettingDialog extends ConsumerStatefulWidget {
   static const String dialogTag = "KlineSettingDialog";
 
-  const KlineSettingDialog({
+   KlineSettingDialog({
     super.key,
     required this.controller,
     required this.labelConfig,
+    required this.settingChangeCallBack,
   });
-
+  SettingChangeCallBack? settingChangeCallBack;
   final StringLabelConfig labelConfig;
   final FlexiKlineController controller;
 
@@ -43,12 +45,26 @@ class KlineSettingDialog extends ConsumerStatefulWidget {
 }
 
 class _KlineSettingDialogState extends ConsumerState<KlineSettingDialog> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // 使用 ref.listen 在 initState 中监听 provider 的数据变化
+      ref.read(klineStateProvider(widget.controller)).addListener(() {
+        if (widget.settingChangeCallBack != null) {
+          widget.settingChangeCallBack!(widget.controller.settingConfig);
+        }
+      });
+    });
+  }
   bool klineHeightChanging = false;
   bool klineWidthChanging = false;
 
   bool get klineSizeChanging => klineHeightChanging || klineWidthChanging;
 
   Future<void> openLandscapePage() async {}
+
 
   @override
   Widget build(BuildContext context) {

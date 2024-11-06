@@ -83,13 +83,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
     Timer.periodic(Duration(seconds: 1), (_) async {
       // ///生成随机k线图数据
-      // final newList = await genRandomCandleList(
-      //   count: 1,
-      //   bar: timebar,
-      //   isHistory: false,
-      // );
-      //
-      // ///更新k线图实时数据
+      final newList = await genRandomCandleList(
+        count: 1,
+        bar: timebar,
+        isHistory: false,
+      );
+
+      ///更新k线图实时数据
       // updateController.updateData(newList);
     });
   }
@@ -188,6 +188,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   barColorLongGreen: "红跌绿涨",
                   barColorLongRed: "红涨绿跌"
                 ),
+                settingChangeCallBack: (SettingConfig setting){
+                  print("样式改变了:${setting.longRed}");
+                },
               )
             ],
           ),

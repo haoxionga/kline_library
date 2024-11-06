@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kline_library/kline.dart';
+import 'package:kline_library/provider/kline_controller_state_provider.dart';
 import 'package:kline_library/update_controller.dart';
 import 'package:kline_library/theme/flexi_theme.dart';
 import 'package:kline_library/util/cache_util.dart';
@@ -28,12 +29,14 @@ typedef GetCandleListCallBack = Future<List<CandleModel>> Function(
     CandleReq req);
 
 typedef OnInitCallBack = Function(FlexiKlineController controller);
+typedef SettingChangeCallBack = Function(SettingConfig setting);
 typedef OnTimeBarChange = Function(TimeBar newTimeBar);
 
 class KLineWidget extends StatefulWidget {
   ///支持的时间周期
   List<TimeBar> supportTimBars;
   OnInitCallBack? onInitCallBack;
+  SettingChangeCallBack? settingChangeCallBack;
 
   ///根据CandleReq，异步返回k线图数据
   GetCandleListCallBack getCandleList;
@@ -76,6 +79,7 @@ class KLineWidget extends StatefulWidget {
       required this.labelConfig,
       this.isShowMarketTooltipCustomView,
       this.updateController,
+      this.settingChangeCallBack,
       this.bottomIndicatorMargin,
       this.onTimeBarChange,
       this.onInitCallBack,
@@ -128,8 +132,9 @@ class _KLineWidgetState extends State<KLineWidget> {
             onTimeBarChange: widget.onTimeBarChange,
             controller: widget.updateController,
             isCanFullScreen: widget.isCanFullScreen,
-              autoCacheConfig: widget.autoCacheConfig,
+            autoCacheConfig: widget.autoCacheConfig,
             initReq: widget.initReq,
+            settingChangeCallBack: widget.settingChangeCallBack,
             isShowMarketTooltipCustomView:
                 widget.isShowMarketTooltipCustomView ?? true,
           ))
@@ -147,14 +152,17 @@ class KlineWidgetPrivate extends ConsumerStatefulWidget {
       required this.labelConfig,
       this.onTimeBarChange,
       this.onInitCallBack,
-      this.autoCacheConfig=false,
+      this.settingChangeCallBack,
+      this.autoCacheConfig = false,
       this.bottomIndicatorMargin,
       required this.isCanFullScreen,
       required this.getCandleModelHistory,
       required this.showBottomIndicator,
       this.isShowMarketTooltipCustomView = false});
+
   final EdgeInsetsGeometry? bottomIndicatorMargin;
   OnInitCallBack? onInitCallBack;
+  SettingChangeCallBack? settingChangeCallBack;
 
   ///是否允许全屏
   bool isCanFullScreen;
@@ -165,7 +173,7 @@ class KlineWidgetPrivate extends ConsumerStatefulWidget {
   OnTimeBarChange? onTimeBarChange;
   UpdateController? controller;
   bool showBottomIndicator;
-  bool autoCacheConfig=false;
+  bool autoCacheConfig = false;
   bool isShowMarketTooltipCustomView = false;
   List<TimeBar> supportTimBars;
   GetCandleListCallBack getCandleModelHistory;
@@ -186,7 +194,6 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
 
   @override
   void dispose() {
-
     widget.controller?.removeListener(_dataChanges);
     super.dispose();
   }
@@ -196,18 +203,16 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
     tag: 'Demo',
   );
 
-
   @override
   void initState() {
     req = widget.initReq;
-    configuration = DefaultFlexiKlineConfiguration(ref: ref, initSize: widget.initSize);
+    configuration =
+        DefaultFlexiKlineConfiguration(ref: ref, initSize: widget.initSize);
 
     controller = FlexiKlineController(
-      configuration: configuration,
-      logger: logger,
-      autoSave: widget.autoCacheConfig
-    );
-
+        configuration: configuration,
+        logger: logger,
+        autoSave: widget.autoCacheConfig);
 
     controller.onCrossCustomTooltip = onCrossCustomTooltip;
 
@@ -216,9 +221,35 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
+        // 使用 ref.listen 在 initState 中监听 provider 的数据变化
+
+        ref.read(klineStateProvider(controller)).addListener(() {
+          if (widget.settingChangeCallBack != null) {
+            widget.settingChangeCallBack!(controller.settingConfig);
+          }
+        });
     });
     widget.controller?.addListener(_dataChanges);
   }
+
+  bool hasListener = false;
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //
+  //   // 确保只添加一次监听器
+  //   if (!hasListener&&controller!=null) {
+  //     ref.listen<KlineStateNotifier>(
+  //       klineStateProvider(controller),
+  //           (previous, next) {
+  //         // 当 klineStateProvider 的状态发生变化时执行此回调
+  //         print("klineStateProvider has changed!");
+  //       },
+  //     );
+  //     hasListener = true;
+  //   }
+  // }
 
   void _dataChanges() {
     _update(widget.controller?.data ?? []);
@@ -253,10 +284,10 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
     }
   }
 
+  bool _isInit = false;
+
   @override
   Widget build(BuildContext context) {
-
-
     Widget content = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -276,6 +307,7 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
         FlexiKlineSettingBar(
           controller: controller,
           onTapTimeBar: onTapTimeBar,
+          settingChangeCallBack: widget.settingChangeCallBack,
           supportTimeBarList: widget.supportTimBars,
           labelConfig: widget.labelConfig,
         ),

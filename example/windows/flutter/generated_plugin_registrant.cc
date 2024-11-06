@@ -6,9 +6,9 @@
 
 #include "generated_plugin_registrant.h"
 
-#include <kline_library/kline_library_plugin_c_api.h>
+#include <kline_library/kline_library_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
-  KlineLibraryPluginCApiRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("KlineLibraryPluginCApi"));
+  KlineLibraryPluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("KlineLibraryPlugin"));
 }
