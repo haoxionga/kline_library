@@ -167,7 +167,7 @@ class _FlexiKlineSettingBarState extends ConsumerState<FlexiKlineSettingBar>
                 final showMore = value == null || isPreferTimeBar(value);
                 return TextArrowButton(
                   onPressed: onTapTimeBarSetting,
-                  text: showMore ? widget.labelConfig.more??"" : value.bar,
+                  text: showMore ? widget.labelConfig.more??"" : getBarName(value),
                   iconStatus: timeBarSettingBtnStatus,
                   background: showMore ? null : theme.markBg,
                 );
@@ -195,6 +195,17 @@ class _FlexiKlineSettingBarState extends ConsumerState<FlexiKlineSettingBar>
     );
   }
 
+  
+  String getBarName(TimeBar bar){
+    String str=bar.bar;
+    if(bar==TimeBar.IntraDay)
+    {
+      //分时
+      str=widget.labelConfig.intraDay??bar.bar;
+    }
+    return str;
+  }
+  
   Widget _buildTimeBarList(
     BuildContext context, {
     required List<TimeBar> timerBarList,
@@ -206,6 +217,8 @@ class _FlexiKlineSettingBarState extends ConsumerState<FlexiKlineSettingBar>
         return Row(
           children: timerBarList.map((bar) {
             final selected = value == bar;
+
+     
             return GestureDetector(
               onTap: () => widget.onTapTimeBar(bar),
               child: Container(
@@ -222,7 +235,7 @@ class _FlexiKlineSettingBarState extends ConsumerState<FlexiKlineSettingBar>
                 ),
                 margin: EdgeInsetsDirectional.symmetric(horizontal: 6.r),
                 child: Text(
-                  bar.bar,
+                  getBarName(bar),
                   style: selected ? theme.t1s14w700 : theme.t1s14w400,
                 ),
               ),

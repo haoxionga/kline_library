@@ -15,6 +15,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../flexi_kline.dart';
 import '../config/export.dart';
 import '../core/export.dart';
 import '../data/export.dart';

@@ -41,8 +41,10 @@ class StringLabelConfig {
   String? barColor;
   String? barColorLongRed;
   String? barColorLongGreen;
+  String? intraDay;
 
   StringLabelConfig({
+    this.intraDay,
     this.tooltipTime,
     this.tooltipOpen,
     this.tooltipHigh,

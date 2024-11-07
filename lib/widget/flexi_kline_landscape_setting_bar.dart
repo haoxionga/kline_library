@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../model/string_label_config.dart';
 import '../theme/flexi_theme.dart';
 
 class FlexiKlineLandscapeSettingBar extends ConsumerWidget {
@@ -26,7 +27,9 @@ class FlexiKlineLandscapeSettingBar extends ConsumerWidget {
     required this.supportTimeBars,
     required this.onTapTimeBar,
     this.onTapDraw,
+    required this.labelConfig,
   });
+  final StringLabelConfig labelConfig;
 
   final List<TimeBar> supportTimeBars;
   final FlexiKlineController controller;
@@ -54,7 +57,14 @@ class FlexiKlineLandscapeSettingBar extends ConsumerWidget {
       ),
     );
   }
-
+  String getBarName(TimeBar bar) {
+    String str = bar.bar;
+    if (bar == TimeBar.IntraDay) {
+      //分时
+      str = labelConfig.intraDay ?? bar.bar;
+    }
+    return str;
+  }
   Widget _buildPreferTimeBarList(BuildContext context, WidgetRef ref) {
     return ValueListenableBuilder(
       valueListenable: controller.timeBarListener,
@@ -79,7 +89,7 @@ class FlexiKlineLandscapeSettingBar extends ConsumerWidget {
                 ),
                 margin: EdgeInsetsDirectional.symmetric(horizontal: 6.r),
                 child: Text(
-                  bar.bar,
+                 getBarName(bar),
                   style: selected ? theme.t1s14w700 : theme.t1s14w400,
                 ),
               ),

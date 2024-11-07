@@ -99,6 +99,8 @@ abstract class BaseFlexiKlineTheme implements IFlexiKlineTheme {
     required this.tooltipTextColor,
     required this.barType,
     required this.longRed,
+    required this.indraTodayAvgColor,
+    required this.indraTodayCloseColor,
   });
 
   BaseFlexiKlineTheme.simple({
@@ -164,6 +166,11 @@ abstract class BaseFlexiKlineTheme implements IFlexiKlineTheme {
   late Color crossTextColor;
   @override
   late Color tooltipTextColor;
+
+  @override
+  late Color indraTodayCloseColor;
+  @override
+  late Color indraTodayAvgColor;
 }
 
 /// 通过[IFlexiKlineTheme]来配置FlexiKline基类.
@@ -226,6 +233,8 @@ mixin FlexiKlineThemeConfigurationMixin implements IConfiguration {
 
   SettingConfig genSettingConfig(covariant IFlexiKlineTheme theme) {
     return SettingConfig(
+      indraTodayAvgColor:theme.indraTodayAvgColor,
+      indraTodayCloseColor:theme.indraTodayCloseColor,
       longRed: theme.longRed,
       pixel: theme.pixel,
       textColor: theme.textColor,

@@ -114,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ///是否允许全屏，允许的话，会显示一个按钮和双击图表变成全屏
                 isCanFullScreen: true,
                 supportTimBars: [
+                  TimeBar.IntraDay,
                   TimeBar.m1,
                   TimeBar.s1,
                   TimeBar.m3,
@@ -186,7 +187,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   barTypeEmptyShort: "跌空心",
                   barColor: "蜡烛图颜色",
                   barColorLongGreen: "红跌绿涨",
-                  barColorLongRed: "红涨绿跌"
+                  barColorLongRed: "红涨绿跌",
+                  intraDay: "分时"
                 ),
                 settingChangeCallBack: (SettingConfig setting){
                   print("样式改变了:${setting.longRed}");

@@ -198,7 +198,8 @@ Future<List<CandleModel>> _genRandomCandleList({
       o: o.d,
       c: c.d,
       l: l.d,
-      v: v.d,
+      v: v.d.abs(),
+      vc:(v*((h+l)/2.0)).toDouble().d
     );
     if (isHistory) {
       list.add(m);

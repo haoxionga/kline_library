@@ -87,6 +87,7 @@ enum ComputeMode {
 enum TimeBar {
   // time(1000, 'time'), // 暂不支持; v0.8.0支持
   s1(1000, '1s'),
+  IntraDay(Duration.millisecondsPerMinute, 'intraday'),
   m1(Duration.millisecondsPerMinute, '1m'),
   m3(3 * Duration.millisecondsPerMinute, '3m'),
   m5(5 * Duration.millisecondsPerMinute, '5m'),

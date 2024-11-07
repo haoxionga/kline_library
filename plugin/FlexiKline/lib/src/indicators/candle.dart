@@ -15,6 +15,7 @@
 import 'dart:math';
 
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import '../config/export.dart';
@@ -127,8 +128,15 @@ class CandlePaintObject<T extends CandleIndicator>
 
   @override
   void paintChart(Canvas canvas, Size size) {
-    /// 绘制蜡烛图
-    paintCandleChart(canvas, size);
+    ////获取一下当前是否是分时图，分时图，走其他绘制方法
+    String currentBar = klineData.req.bar;
+    if (currentBar == TimeBar.IntraDay.bar) {
+      ///分时图
+      paintIntraDayChart(canvas, size);
+    } else {
+      /// 绘制蜡烛图
+      paintCandleChart(canvas, size);
+    }
 
     /// 绘制价钱刻度数据
     if (settingConfig.showYAxisTick) {
@@ -231,9 +239,11 @@ class CandlePaintObject<T extends CandleIndicator>
       if (!isDrawFill) {
         // 空心蜡烛
         final rect = Rect.fromLTWH(
-            openOff.dx - (settingConfig.candleWidth * 0.5)+settingConfig.candleLineWidth,
+            openOff.dx -
+                (settingConfig.candleWidth * 0.5) +
+                settingConfig.candleLineWidth,
             min(openOff.dy, closeOff.dy),
-            settingConfig.candleWidth-settingConfig.candleLineWidth*2,
+            settingConfig.candleWidth - settingConfig.candleLineWidth * 2,
             (openOff.dy - closeOff.dy).abs());
 
         canvas.drawRect(
@@ -610,5 +620,124 @@ class CandlePaintObject<T extends CandleIndicator>
     Rect? tipsRect,
   }) {
     return null;
+  }
+
+  /// 绘制蜡烛图
+  void paintIntraDayChart(Canvas canvas, Size size) {
+    if (!klineData.canPaintChart) {
+      logw('paintIntraDayChart Data.list is empty or Index is out of bounds');
+      return;
+    }
+
+    final list = klineData.list;
+    int start = klineData.start;
+    int end = klineData.end;
+
+    final offset = startCandleDx - candleWidthHalf;
+    // final bar = klineData.timeBar;
+    Offset? maxHihgOffset, minLowOffset;
+    bool hasEnough = paintDxOffset > 0;
+    BagNum maxHigh = list[start].high;
+    BagNum minLow = list[start].low;
+    CandleModel m;
+    // 创建路径并添加点
+    Path path = Path();
+    bool isShowAvgLine = false;
+    double startDx = 0;
+    double endDx = 0;
+    Offset? lastPoint;
+    for (var i = start; i < end; i++) {
+      m = list[i];
+      final dx = offset - (i - start) * candleActualWidth;
+
+      final highOff = Offset(dx, valueToDy(m.high));
+      final lowOff = Offset(dx, valueToDy(m.low));
+
+      if (!isShowAvgLine) {
+        isShowAvgLine = ((m.vc ?? Decimal.fromInt(0)).toDouble() > 0) ||
+            (m.vcq ?? Decimal.fromInt(0)).toDouble() > 0;
+      }
+      double avgDy = valueToDy(BagNum.fromDecimal(
+          ((m.vc ?? m.vcq ?? Decimal.fromInt(0)).toDouble() / m.v.toDouble())
+              .d));
+
+      if (i == start) {
+        startDx = dx;
+        path.moveTo(dx, valueToDy(m.close));
+
+
+      } else {
+        if (i == end - 1) {
+          endDx = dx;
+        }
+        path.lineTo(dx, valueToDy(m.close));
+
+      }
+
+      if (isShowAvgLine && lastPoint != null) {
+        ///绘制成交均价线
+        canvas.drawLine(
+            lastPoint, Offset(dx, avgDy), settingConfig.indraTodayAvgLinePaint);
+      }
+
+
+
+      if (indicator.high.show || indicator.low.show) {
+        if (hasEnough) {
+          // 满足一屏, 根据initData中的最大最小值来记录最大最小偏移量.
+          if (m.high == _maxHigh) {
+            maxHihgOffset = highOff;
+            maxHigh = _maxHigh!;
+          }
+          if (m.low == _minLow) {
+            minLowOffset = lowOff;
+            minLow = _minLow!;
+          }
+        } else if (dx > 0) {
+          // 如果当前绘制不足一屏, 最大最小绘制仅限可见区域.
+          if (m.high >= maxHigh) {
+            maxHihgOffset = highOff;
+            maxHigh = m.high;
+          }
+          if (m.low <= minLow) {
+            minLowOffset = lowOff;
+            minLow = m.low;
+          }
+        }
+      }
+      if (isShowAvgLine) {
+        lastPoint = Offset(dx, avgDy);
+      }
+    }
+
+    ///绘制价格波动线
+    canvas.drawLineType(
+        LineType.solid, path, settingConfig.indraTodayLinePaint);
+
+    /// 绘制渐变色块
+    Path gradientPath = Path.from(path);
+    gradientPath.lineTo(endDx, size.height); // 向下连接到右下角
+    gradientPath.lineTo(startDx, size.height); // 向左连接到左下角
+    gradientPath.close(); // 关闭路径形成封闭区域
+    final gradientPaint = Paint()
+      ..shader = LinearGradient(
+        colors: [
+          settingConfig.indraTodayCloseColor.withOpacity(0.4),
+          settingConfig.indraTodayCloseColor.withOpacity(0),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTRB(0, 0, size.width, size.height));
+
+    // 4. 绘制渐变色块
+    canvas.drawPath(gradientPath, gradientPaint);
+
+    // 最后绘制在蜡烛图中的最大最小价钱标记
+    if ((indicator.high.show || indicator.low.show) &&
+        (maxHihgOffset != null && maxHigh > BagNum.zero) &&
+        (minLowOffset != null && minLow > BagNum.zero)) {
+      paintPriceMark(canvas, maxHihgOffset, maxHigh, indicator.high);
+      paintPriceMark(canvas, minLowOffset, minLow, indicator.low);
+    }
   }
 }

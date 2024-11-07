@@ -200,6 +200,7 @@ class _LandscapeKlinePageState extends ConsumerState<LandscapeKlinePage> {
               controller: controller,
               supportTimeBars: widget.supportTimeBarList,
               onTapTimeBar: onTapTimerBar,
+              labelConfig: widget.labelConfig,
             ),
           ),
         ),

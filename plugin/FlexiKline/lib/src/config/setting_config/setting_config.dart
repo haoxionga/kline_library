@@ -31,6 +31,8 @@ class SettingConfig {
     required this.barType,
 
     required this.longRed,
+    required this.indraTodayAvgColor,
+    required this.indraTodayCloseColor,
 
 
     /// Long/Short颜色配置
@@ -75,7 +77,10 @@ class SettingConfig {
   final int barType;
 
 
-
+  ///分时图均价线颜色
+  final Color indraTodayAvgColor;
+  ///分时图折线颜色
+  final Color indraTodayCloseColor;
 
 
   ////上涨的是否是红色
@@ -181,6 +186,13 @@ extension SettingDataExt on SettingConfig {
 
 
   Color get longColorRevert=>longRed?longColor:shortColor;
+
+  // Color get indraTodayCloseColor=>Color(0xff4d78ff);
+  //
+  // Color get indraTodayAvgColor=>Color(0xffff9933);
+
+
+
   Color get shortColorRevert=>!longRed?longColor:shortColor;
 
   /// 指标图 涨跌 bar/line 配置
@@ -245,6 +257,18 @@ extension SettingDataExt on SettingConfig {
 
   Paint get defShortLinePaint => Paint()
     ..color = shortColorRevert
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = candleLineWidth;
+
+
+
+  Paint get indraTodayLinePaint => Paint()
+    ..color = indraTodayCloseColor
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = candleLineWidth;
+
+  Paint get indraTodayAvgLinePaint => Paint()
+    ..color = indraTodayAvgColor
     ..style = PaintingStyle.stroke
     ..strokeWidth = candleLineWidth;
 }

@@ -32,7 +32,7 @@ class TimerBarSelectDialog extends ConsumerWidget {
     required this.labelConfig,
   });
 
- final StringLabelConfig labelConfig;
+  final StringLabelConfig labelConfig;
   final FlexiKlineController controller;
   final ValueChanged<TimeBar> onTapTimeBar;
   final List<TimeBar> preferTimeBarList;
@@ -40,7 +40,7 @@ class TimerBarSelectDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final s =labelConfig;
+    final s = labelConfig;
     final theme = ref.watch(themeProvider);
     final screenWidth = ScreenUtil().screenWidth;
     final timeBarWidth = (screenWidth - 2 * 16.r - 4 * 12.r) / 5;
@@ -60,7 +60,7 @@ class TimerBarSelectDialog extends ConsumerWidget {
             // _buildPreferTimeBarList(context, ref, barWidth: timeBarWidth),
             SizedBox(height: 10.r),
             Text(
-              s.intervals??"",
+              s.intervals ?? "",
               style: theme.t1s20w700,
             ),
             SizedBox(height: 10.r),
@@ -72,42 +72,13 @@ class TimerBarSelectDialog extends ConsumerWidget {
     );
   }
 
-  Widget _buildPreferTimeBarList(
-    BuildContext context,
-    WidgetRef ref, {
-    required double barWidth,
-  }) {
-    return ValueListenableBuilder(
-      valueListenable: controller.timeBarListener,
-      builder: (context, value, child) {
-        final theme = ref.read(themeProvider);
-        return Wrap(
-          alignment: WrapAlignment.start,
-          spacing: 12.r,
-          runSpacing: 8.r,
-          children: preferTimeBarList.map((bar) {
-            final selected = value == bar;
-            return SizedBox(
-              width: barWidth,
-              child: TextButton(
-                key: ValueKey(bar),
-                style: theme.outlinedBtnStyle(showOutlined: selected),
-                onPressed: () => onTapTimeBar(bar),
-                child: FittedBox(
-                  child: Text(
-                    bar.bar,
-                    style: theme.t2s12w400.copyWith(
-                      color: theme.t1,
-                      fontWeight: selected ? FontWeight.bold : null,
-                    ),
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
-        );
-      },
-    );
+  String getBarName(TimeBar bar) {
+    String str = bar.bar;
+    if (bar == TimeBar.IntraDay) {
+      //分时
+      str = labelConfig.intraDay ?? bar.bar;
+    }
+    return str;
   }
 
   Widget _buildAllTimeBarList(
@@ -123,7 +94,10 @@ class TimerBarSelectDialog extends ConsumerWidget {
           alignment: WrapAlignment.start,
           spacing: 12.r,
           runSpacing: 8.r,
-          children:(supportTimBarList.length==0? TimeBar.values:supportTimBarList).map((bar) {
+          children: (supportTimBarList.length == 0
+                  ? TimeBar.values
+                  : supportTimBarList)
+              .map((bar) {
             final selected = value == bar;
             return SizedBox(
               width: barWidth,
@@ -133,7 +107,7 @@ class TimerBarSelectDialog extends ConsumerWidget {
                 onPressed: () => onTapTimeBar(bar),
                 child: FittedBox(
                   child: Text(
-                    bar.bar,
+                    getBarName(bar),
                     style: theme.t2s12w400.copyWith(
                       color: theme.t1,
                       fontWeight: selected ? FontWeight.bold : null,
@@ -148,13 +122,5 @@ class TimerBarSelectDialog extends ConsumerWidget {
     );
   }
 
-  // List<Widget> _getTimeBarItems() {
-  //   List<TimeBar> datas = TimeBar.values;
-  //   if (supportTimBarList.length != 0) {
-  //     datas = supportTimBarList;
-  //   }
-  //   return datas.map((bar){
-  //
-  //   }).toList();
-  // }
+
 }

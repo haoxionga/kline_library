@@ -32,8 +32,10 @@ class DefaultFlexiKlineTheme extends BaseFlexiKlineTheme
   DefaultFlexiKlineTheme({
     required this.theme,
   }) : super(
+          indraTodayAvgColor: theme.indraTodayAvgColor,
+          indraTodayCloseColor: theme.indraTodayCloseColor,
           barType: theme.barType,
-        longRed: theme.longRed,
+          longRed: theme.longRed,
           long: theme.long,
           short: theme.short,
           chartBg: theme.pageBg,
@@ -56,7 +58,7 @@ class DefaultFlexiKlineTheme extends BaseFlexiKlineTheme
     required this.theme,
   }) : super.simple(
           barType: theme.barType,
-    longRed: theme.longRed,
+          longRed: theme.longRed,
           long: theme.long,
           short: theme.short,
           chartBg: theme.pageBg,
@@ -117,7 +119,8 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
   Size get initialMainSize {
     return initSize ?? Size(ScreenUtil().screenWidth, 300.r);
   }
-  String cacheKey="kline_theme_1";
+
+  String cacheKey = "kline_theme_111";
 
   @override
   FlexiKlineConfig getFlexiKlineConfig([DefaultFlexiKlineTheme? theme]) {
@@ -125,9 +128,7 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
 
     {
       try {
-
         final String? jsonStr = CacheUtil().get(cacheKey);
-
 
         if (jsonStr != null && jsonStr.isNotEmpty) {
           final json = jsonDecode(jsonStr);
@@ -138,8 +139,6 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
         }
       } catch (e) {}
     }
-
-
 
     FlexiKlineConfig config = genFlexiKlineConfig(theme!);
     return config;
@@ -217,8 +216,6 @@ class DefaultFlexiKlineConfiguration with FlexiKlineThemeConfigurationMixin {
         ),
         tipsPadding: theme.tipsPadding,
       ),
-
-
     ];
   }
 }

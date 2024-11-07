@@ -7,7 +7,11 @@ part of 'setting_config.dart';
 // **************************************************************************
 
 abstract class _$SettingConfigCWProxy {
+  SettingConfig indraTodayAvgColor(Color indraTodayAvgColor);
+  SettingConfig indraTodayCloseColor(Color indraTodayCloseColor);
+
   SettingConfig barType(int barType);
+
   SettingConfig longRed(bool longRed);
 
   SettingConfig pixel(double pixel);
@@ -60,6 +64,8 @@ abstract class _$SettingConfigCWProxy {
   /// SettingConfig(...).copyWith(id: 12, name: "My name")
   /// ````
   SettingConfig call({
+    Color? indraTodayAvgColor,
+    Color? indraTodayCloseColor,
     double? pixel,
     int? barType,
     bool? longRed,
@@ -91,6 +97,12 @@ class _$SettingConfigCWProxyImpl implements _$SettingConfigCWProxy {
   const _$SettingConfigCWProxyImpl(this._value);
 
   final SettingConfig _value;
+
+  @override
+  SettingConfig indraTodayAvgColor(Color indraTodayAvgColor) => this(indraTodayAvgColor: indraTodayAvgColor);
+
+  @override
+  SettingConfig indraTodayCloseColor(Color indraTodayCloseColor) => this(indraTodayCloseColor: indraTodayCloseColor);
 
   @override
   SettingConfig barType(int barType) => this(barType: barType);
@@ -185,6 +197,9 @@ class _$SettingConfigCWProxyImpl implements _$SettingConfigCWProxy {
   /// SettingConfig(...).copyWith(id: 12, name: "My name")
   /// ````
   SettingConfig call({
+    Object? indraTodayAvgColor = const $CopyWithPlaceholder(),
+    Object? indraTodayCloseColor = const $CopyWithPlaceholder(),
+
     Object? pixel = const $CopyWithPlaceholder(),
     Object? barType = const $CopyWithPlaceholder(),
     Object? longRed = const $CopyWithPlaceholder(),
@@ -211,6 +226,16 @@ class _$SettingConfigCWProxyImpl implements _$SettingConfigCWProxy {
     Object? subChartMaxCount = const $CopyWithPlaceholder(),
   }) {
     return SettingConfig(
+
+      indraTodayAvgColor: indraTodayAvgColor == const $CopyWithPlaceholder() || indraTodayAvgColor == null
+          ? _value.indraTodayAvgColor
+          : indraTodayAvgColor as Color,
+      indraTodayCloseColor: indraTodayCloseColor == const $CopyWithPlaceholder() || indraTodayCloseColor == null
+          ? _value.indraTodayCloseColor
+          : indraTodayCloseColor as Color,
+
+
+
       pixel: pixel == const $CopyWithPlaceholder() || pixel == null
           ? _value.pixel
           // ignore: cast_nullable_to_non_nullable
@@ -339,6 +364,9 @@ extension $SettingConfigCopyWith on SettingConfig {
 
 SettingConfig _$SettingConfigFromJson(Map<String, dynamic> json) =>
     SettingConfig(
+      indraTodayAvgColor: const ColorConverter().fromJson(json['indraTodayAvgColor'] as String),
+      indraTodayCloseColor: const ColorConverter().fromJson(json['indraTodayCloseColor'] as String),
+
       barType: (json['barType'] ??0).toInt(),
       pixel: (json['pixel'] as num).toDouble(),
       textColor: const ColorConverter().fromJson(json['textColor'] as String),
@@ -377,6 +405,11 @@ SettingConfig _$SettingConfigFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SettingConfigToJson(SettingConfig instance) {
   final val = <String, dynamic>{
+
+
+    'indraTodayAvgColor': const ColorConverter().toJson(instance.indraTodayAvgColor),
+    'indraTodayCloseColor': const ColorConverter().toJson(instance.indraTodayCloseColor),
+
     'pixel': instance.pixel,
     'barType': instance.barType,
     'longRed': instance.longRed,

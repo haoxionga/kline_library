@@ -46,6 +46,12 @@ abstract class FKTheme {
 
   Color get long => const Color(0xfffc5959);
   Color get short => const Color(0xff4DCC95);
+
+
+
+
+  Color get indraTodayAvgColor=>Color(0xffff9933);
+  Color get indraTodayCloseColor=>Color(0xff4d78ff);
   int get barType => 0;
   ///是否是红涨绿跌，
   bool get longRed => false;

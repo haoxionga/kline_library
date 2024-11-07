@@ -49,6 +49,12 @@ abstract interface class IFlexiKlineTheme {
   Color get long;
   Color get short;
 
+
+
+  Color get indraTodayAvgColor;
+  Color get indraTodayCloseColor;
+
+
   // 背景色
   Color get chartBg;
   Color get tooltipBg;
