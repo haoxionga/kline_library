@@ -657,9 +657,15 @@ class CandlePaintObject<T extends CandleIndicator>
         isShowAvgLine = ((m.vc ?? Decimal.fromInt(0)).toDouble() > 0) ||
             (m.vcq ?? Decimal.fromInt(0)).toDouble() > 0;
       }
-      double avgDy = valueToDy(BagNum.fromDecimal(
-          ((m.vc ?? m.vcq ?? Decimal.fromInt(0)).toDouble() / m.v.toDouble())
-              .d));
+      double? avgDy;
+
+      try {
+        avgDy = valueToDy(BagNum.fromDecimal(
+                  ((m.vc ?? m.vcq ?? Decimal.fromInt(0)).toDouble() / m.v.toDouble())
+                      .d));
+      } catch (e) {
+        print(e);
+      }
 
       if (i == start) {
         startDx = dx;
@@ -674,7 +680,7 @@ class CandlePaintObject<T extends CandleIndicator>
 
       }
 
-      if (isShowAvgLine && lastPoint != null) {
+      if (isShowAvgLine && lastPoint != null&&avgDy!=null) {
         ///绘制成交均价线
         canvas.drawLine(
             lastPoint, Offset(dx, avgDy), settingConfig.indraTodayAvgLinePaint);
@@ -705,7 +711,7 @@ class CandlePaintObject<T extends CandleIndicator>
           }
         }
       }
-      if (isShowAvgLine) {
+      if (isShowAvgLine&&avgDy!=null) {
         lastPoint = Offset(dx, avgDy);
       }
     }
