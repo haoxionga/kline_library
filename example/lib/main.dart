@@ -89,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
         isHistory: false,
       );
 
+
       ///更新k线图实时数据
       // updateController.updateData(newList);
     });
@@ -103,8 +104,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text("k线图DEMO"),
       ),
+      backgroundColor: Colors.white,
       body: Container(
         height: double.maxFinite,
         child: SingleChildScrollView(
@@ -114,6 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ///是否允许全屏，允许的话，会显示一个按钮和双击图表变成全屏
                 isCanFullScreen: true,
                 supportTimBars: [
+                  ///配置分时，
                   TimeBar.IntraDay,
                   TimeBar.m1,
                   TimeBar.s1,
@@ -131,11 +135,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 isShowMarketTooltipCustomView: true,
                 getCandleList: (CandleReq req) async {
+                  ///根据周期返回k线图数据（初始化使用）
                   final list = await genRandomCandleList(
                     count: 500,
                     bar: req.timeBar!,
                   );
-
                   lastTs = list.last.ts;
 
                   return list;
@@ -191,6 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   intraDay: "分时"
                 ),
                 settingChangeCallBack: (SettingConfig setting){
+                  ///这里可以读到红涨绿跌，绿涨红跌配置，方便在自己的app中统一其他颜色
                   print("样式改变了:${setting.longRed}");
                 },
               )

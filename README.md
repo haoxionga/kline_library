@@ -4,11 +4,33 @@
 
 效果图:
 
-![示例1](/demo/images/1.jpg "图片标题")
-![示例2](/demo/images/2.jpg "图片标题")
-![示例3](/demo/images/3.jpg "图片标题")
-![示例4](/demo/images/4.jpg "图片标题")
+# 分时图
 
+![示例1](/demo/images/1.png "图片标题")
+
+# 周期选择
+
+![示例2](/demo/images/2.png "图片标题")
+
+# 指标选择
+
+![示例3](/demo/images/3.png "图片标题")
+
+# 功能切换（新增，切换蜡烛图实心空心选项，切换蜡烛图红涨绿跌绿涨红跌选项）
+
+![示例4](/demo/images/4.png "图片标题")
+
+# 实心蜡烛图
+
+![示例5](/demo/images/5.png "图片标题")
+
+# 空心蜡烛图
+
+![示例6](/demo/images/6.png "图片标题")
+
+# 全指标图
+
+![示例6](/demo/images/7.png "图片标题")
 
 为什么用他：
 
@@ -19,10 +41,8 @@
     3 纯flutter的库，无需使用webview加载网页的形式，还要处理webview和scrollview的滑动事件冲突
 
 为什么要再次封装？
-    
+
     flexi_kline的demo功能较为全面，切换周期和指标，图标设置的功能想直接移植进来，但是对项目改动的就会比较多，所以才有了这个库，
-
-
 
 使用:
 
@@ -54,13 +74,12 @@
             UpdateController updateController = UpdateController();
             
            ///k线图容器
-            KLineWidget(
+              KLineWidget(
                 ///是否允许全屏，允许的话，会显示一个按钮和双击图表变成全屏
-                isCanFullScreen: false,
-                ///容器初始化的尺寸
-                initSize:Size(300,400),
-                ///用于自选的k线周期
+                isCanFullScreen: true,
                 supportTimBars: [
+                  ///配置分时，
+                  TimeBar.IntraDay,
                   TimeBar.m1,
                   TimeBar.s1,
                   TimeBar.m3,
@@ -71,67 +90,75 @@
                   TimeBar.D1,
                   TimeBar.M1
                 ],
-                ///用于更新单条数据的controller
                 updateController: updateController,
-                ///当用户点击k线图周期的函数
                 onTimeBarChange: (TimeBar newT) {
+                  timebar = newT;
                 },
-                ///是否展示顶部股票信息
                 isShowMarketTooltipCustomView: true,
-                ///获取历史k线图数据，在这里可以自己做网络请求
                 getCandleList: (CandleReq req) async {
+                  ///根据周期返回k线图数据（初始化使用）
                   final list = await genRandomCandleList(
                     count: 500,
                     bar: req.timeBar!,
                   );
-
                   lastTs = list.last.ts;
 
                   return list;
                 },
-                ///全屏时，显示的24小时成交额，量等信息
                 marketTicker: MarketTicker(),
-                ///初始化信息，股票id，名称，周期
                 initReq: CandleReq(
                   instId: '000001',
                   bar: timebar.bar,
                   precision: 4,
                   displayName: '测试股票',
                 ),
-                ///应用内的文本字符串，自己传入
+                autoCacheConfig: true,
                 labelConfig: StringLabelConfig(
-                    tooltipTime: "时间",
-                    tooltipOpen: "开盘",
-                    tooltipHigh: "最高",
-                    tooltipLow: "最低",
-                    tooltipClose: "收盘",
-                    tooltipChg: "涨跌额",
-                    tooltipChgRate: "涨跌幅",
-                    tooltipRange: "振幅",
-                    tooltipAmount: "成交量",
-                    tooltipTurnover: "成交额",
-                    preferredIntervals: "周期偏好",
-                    intervals: "全部周期",
-                    mainChartIndicators: "主图指标",
-                    subChartIndicators: "副图指标",
-                    indicatorSetting: "指标设置",
-                    indicators: "指标",
-                    more: "更多",
-                    chartSettings: "图表设置",
-                    landscape: "横屏",
-                    drawings: "画图",
-                    lastPrice: "最新价",
-                    yAxisPriceScale: "Y轴坐标",
-                    countdown: "倒计时",
-                    chartHeight: "图表高度",
-                    chartWidth: "图表宽度",
-                    highPrice: "最高价",
-                    lowPrice: "最低价",
-                    h24High: "24小时最高",
-                    h24Low: "24小时最低",
-                    h24Vol: "24小时量",
-                    h24Turnover: "24小时额"
+                  tooltipTime: "时间",
+                  tooltipOpen: "开盘",
+                  tooltipHigh: "最高",
+                  tooltipLow: "最低",
+                  tooltipClose: "收盘",
+                  tooltipChg: "涨跌额",
+                  tooltipChgRate: "涨跌幅",
+                  tooltipRange: "振幅",
+                  tooltipAmount: "成交量",
+                  tooltipTurnover: "成交额",
+                  preferredIntervals: "周期偏好",
+                  intervals: "全部周期",
+                  mainChartIndicators: "主图指标",
+                  subChartIndicators: "副图指标",
+                  indicatorSetting: "指标设置",
+                  indicators: "指标",
+                  more: "更多",
+                  chartSettings: "图表设置",
+                  landscape: "横屏",
+                  drawings: "画图",
+                  lastPrice: "最新价",
+                  yAxisPriceScale: "Y轴坐标",
+                  countdown: "倒计时",
+                  chartHeight: "图表高度",
+                  chartWidth: "图表宽度",
+                  highPrice: "最高价",
+                  lowPrice: "最低价",
+                  h24High: "24小时最高",
+                  h24Low: "24小时最低",
+                  h24Vol: "24小时量",
+                  h24Turnover: "24小时额",
+                  barTypeName: "蜡烛图类型",
+                  barTypeFill: "全实心",
+                  barTypeEmpty: "全空心",
+                  barTypeEmptyLong: "涨空心",
+                  barTypeEmptyShort: "跌空心",
+                  barColor: "蜡烛图颜色",
+                  barColorLongGreen: "红跌绿涨",
+                  barColorLongRed: "红涨绿跌",
+                  intraDay: "分时"
                 ),
+                settingChangeCallBack: (SettingConfig setting){
+                  ///这里可以读到红涨绿跌，绿涨红跌配置，方便在自己的app中统一其他颜色
+                  print("样式改变了:${setting.longRed}");
+                },
               )
 
         ///更新实时k线图数据
