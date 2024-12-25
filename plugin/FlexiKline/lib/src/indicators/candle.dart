@@ -664,7 +664,7 @@ class CandlePaintObject<T extends CandleIndicator>
                   ((m.vc ?? m.vcq ?? Decimal.fromInt(0)).toDouble() / m.v.toDouble())
                       .d));
       } catch (e) {
-        print(e);
+        // print(e);
       }
 
       if (i == start) {
