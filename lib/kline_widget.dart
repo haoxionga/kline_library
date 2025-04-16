@@ -277,10 +277,14 @@ class _KlineWidgetPrivateState extends ConsumerState<KlineWidgetPrivate> {
 
   /// 更新最新的蜡烛数据到行情上.
   void emitLatestMarketCandle() {
-    if (controller.curKlineData.latest != null) {
-      ref.read(marketCandleProvider.notifier).emit(
-            controller.curKlineData.latest!,
-          );
+    if (controller.curKlineData.latest != null&&mounted) {
+
+      try {
+        ref.read(marketCandleProvider.notifier).emit(
+                    controller.curKlineData.latest!,
+                  );
+      } catch (e) {
+      }
     }
   }
 
