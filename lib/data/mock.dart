@@ -198,7 +198,7 @@ Future<List<CandleModel>> _genRandomCandleList({
       o: o.d,
       c: c.d,
       l: l.d,
-      v: Decimal.zero,
+      v: Decimal.fromJson((getRandom*100).toString()),
       vc:(v*((h+l)/2.0)).toDouble().d
     );
     if (isHistory) {
@@ -209,6 +209,11 @@ Future<List<CandleModel>> _genRandomCandleList({
   }
 
   return list;
+}
+double get getRandom{
+final random = Random();
+double value = random.nextDouble(); // 0.0 到 1.0 之间的 double
+  return value;
 }
 
 /// 生成极小值的蜡烛数据.
